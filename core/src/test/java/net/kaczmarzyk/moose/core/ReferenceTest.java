@@ -1,7 +1,6 @@
 package net.kaczmarzyk.moose.core;
 
 import static org.junit.Assert.*;
-import net.kaczmarzyk.moose.core.common.IntegrationTestBase;
 import net.kaczmarzyk.moose.core.common.ReferenceService;
 
 import org.junit.Test;

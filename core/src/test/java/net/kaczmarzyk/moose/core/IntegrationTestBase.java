@@ -1,4 +1,4 @@
-package net.kaczmarzyk.moose.core.common;
+package net.kaczmarzyk.moose.core;
 
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
