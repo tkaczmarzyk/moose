@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-public class ReferenceTest extends IntegrationTestBase {
+public class ReferenceTest extends SpringTestBase {
 
 	@Autowired
 	private ReferenceService service;

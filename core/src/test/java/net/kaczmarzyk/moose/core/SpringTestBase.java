@@ -7,6 +7,6 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 @ContextConfiguration({"classpath:/META-INF/spring/applicationContext*.xml",
 	"classpath:/testContext.xml"
 })
-public abstract class IntegrationTestBase extends AbstractJUnit4SpringContextTests {
+public abstract class SpringTestBase extends AbstractJUnit4SpringContextTests {
 
 }

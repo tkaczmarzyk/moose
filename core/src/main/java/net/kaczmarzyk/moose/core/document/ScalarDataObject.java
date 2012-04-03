@@ -14,7 +14,7 @@ public class ScalarDataObject implements DataObject {
 	
 	
 	public ScalarDataObject(Object implicitValue) {
-		value = new ImplicitData<Object>(implicitValue);
+		value = new ExplicitData<Object>(implicitValue);
 	}
 	
 	@Override

@@ -17,6 +17,8 @@ public class Sheet {
 	
 	public Sheet(Document doc) {
 		this.dimensions = new DimensionsList();
+		this.dimensions.add(new ColumnDimension());
+		this.dimensions.add(new RowDimension());
 		this.cells = new HashMap<>();
 		this.name = "Sheet " + (doc.getSheets().size() + 1);
 		this.doc = doc;
@@ -40,7 +42,7 @@ public class Sheet {
 		}
 		Cell result = cells.get(coords);
 		if (result == null) {
-			result = new Cell();
+			result = new Cell(doc);
 			cells.put(coords, result);
 		}
 		return result;
@@ -63,4 +65,7 @@ public class Sheet {
 		return doc;
 	}
 	
+	public DimensionsList getDimensions() {
+		return dimensions;
+	}
 }

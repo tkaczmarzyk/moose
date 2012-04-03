@@ -7,4 +7,5 @@ public interface Dimension<T> {
 	Coordinate<T> getDefaultCoordinate(Sheet doc);
 	
 	void extend();
+	
 }

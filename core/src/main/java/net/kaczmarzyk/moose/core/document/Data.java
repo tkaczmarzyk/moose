@@ -3,5 +3,5 @@ package net.kaczmarzyk.moose.core.document;
 
 public interface Data<T> {
 
-	T getImplicitValue();
+	T getExplicitValue(Document doc);
 }

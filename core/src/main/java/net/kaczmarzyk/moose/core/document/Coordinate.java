@@ -17,4 +17,18 @@ public class Coordinate<T> {
 		return new Coordinate<K>(value);
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Coordinate) {
+			return value.equals(((Coordinate<?>)obj).value);
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
 }

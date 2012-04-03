@@ -1,27 +1,34 @@
 package net.kaczmarzyk.moose.core.document;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.kaczmarzyk.moose.core.expression.ExpressionEvaluator;
+import net.kaczmarzyk.moose.core.expression.PocExpressionEvaluator;
 
 
 public class Cell {
 
-	private List<DataObject> values;
+	private ExpressionEvaluator evaluator = new PocExpressionEvaluator();
+	private DataObject value;
+	
+	private Document doc;
 
 	
-	public Cell() {
-		this.values = new ArrayList<>();
+	public Cell(Document doc) {
+		this.doc = doc;
 	}
 	
-	public List<DataObject> getValues() {
-		return values;
+	public DataObject getValue() {
+		return value;
+	}
+	
+	public void clear() {
+		value = null;
 	}
 
-	public void addValue(DataObject value) {
-		values.add(value);
+	public void setValue(String input) {
+		value = evaluator.evaluate(input, doc);
 	}
 	
-	public void setValues(List<DataObject> values) {
-		this.values = values;
+	public void setValues(DataObject value) {
+		this.value = value;
 	}
 }

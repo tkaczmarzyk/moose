@@ -1,17 +1,18 @@
 package net.kaczmarzyk.moose.core.document;
 
+
 public class ImplicitData<T> implements Data<T> {
 
-	private T value;
+	private Data<T> explicitData;
 	
 	
-	public ImplicitData(T value) {
-		this.value = value;
+	public ImplicitData(Data<T> explicitData) {
+		this.explicitData = explicitData;
 	}
 	
 	@Override
-	public T getImplicitValue() {
-		return value;
+	public T getExplicitValue(Document doc) {
+		return explicitData.getExplicitValue(doc);
 	}
 
 }
