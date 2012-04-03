@@ -1,0 +1,3 @@
+[submodule "shell/spring-shell"]
+	path = shell/spring-shell
+	url = git@github.com:tkaczmarzyk/spring-shell.git
