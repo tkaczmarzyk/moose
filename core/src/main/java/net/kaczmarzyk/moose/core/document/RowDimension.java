@@ -2,8 +2,10 @@ package net.kaczmarzyk.moose.core.document;
 
 public class RowDimension implements Dimension<Integer> {
 
+	private int numRows = 10;
+	
 	@Override
-	public Coordinate<Integer> getDefaultCoordinate(Document doc) {
+	public Coordinate<Integer> getDefaultCoordinate(Sheet doc) {
 		return Coordinate.of(1);
 	}
 	
@@ -18,9 +20,14 @@ public class RowDimension implements Dimension<Integer> {
 			
 			@Override
 			public boolean hasNext() {
-				return current < Integer.MAX_VALUE;
+				return current <= numRows;
 			}
 		};
+	}
+
+	@Override
+	public void extend() {
+		numRows++;
 	}
 
 }

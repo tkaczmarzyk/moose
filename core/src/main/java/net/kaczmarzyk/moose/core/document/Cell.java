@@ -1,16 +1,27 @@
 package net.kaczmarzyk.moose.core.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Cell {
 
-	private String value;
+	private List<DataObject> values;
 
 	
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
+	public Cell() {
+		this.values = new ArrayList<>();
 	}
 	
+	public List<DataObject> getValues() {
+		return values;
+	}
+
+	public void addValue(DataObject value) {
+		values.add(value);
+	}
+	
+	public void setValues(List<DataObject> values) {
+		this.values = values;
+	}
 }

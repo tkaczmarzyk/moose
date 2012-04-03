@@ -24,11 +24,11 @@ public class DimensionsList {
 		dimensions.add(dimension);
 	}
 
-	public List<Coordinate<?>> inferFullCoords(Coordinate<?>[] partialCoords, Document doc) {
+	public Coordinates inferFullCoords(Coordinate<?>[] partialCoords, Sheet doc) {
 		List<Coordinate<?>> coords = new ArrayList<Coordinate<?>>();
 		for (int i = 0; i < dimensions.size(); i++) {
 			coords.add(i < partialCoords.length ? partialCoords[i] : dimensions.get(i).getDefaultCoordinate(doc));
 		}
-		return coords;
+		return new Coordinates(coords);
 	}
 }

@@ -4,5 +4,7 @@ public interface Dimension<T> {
 
 	CoordinateGenerator<T> coordinateGenerator();
 	
-	Coordinate<T> getDefaultCoordinate(Document doc);
+	Coordinate<T> getDefaultCoordinate(Sheet doc);
+	
+	void extend();
 }

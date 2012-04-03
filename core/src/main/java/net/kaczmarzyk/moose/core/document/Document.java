@@ -1,49 +1,37 @@
 package net.kaczmarzyk.moose.core.document;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class Document {
 
-	private DimensionsList dimensions;
+	private String name;
 	
-	private Map<List<Coordinate<?>>, Cell> cells;
+	private List<Sheet> sheets;
 	
 	
-	public Document() {
-		dimensions = new DimensionsList();
-		cells = new HashMap<>();
-	}
-	
-	public <T> void addDimension(Dimension<T> dimension, Coordinate<T> currentCoordinate) {
-		dimensions.add(dimension);
-		Map<List<Coordinate<?>>, Cell> newCells = new HashMap<>();
-		for (Map.Entry<List<Coordinate<?>>, Cell> entry : cells.entrySet()) {
-			List<Coordinate<?>> newKey = entry.getKey();
-			newKey.add(currentCoordinate);
-			newCells.put(newKey, entry.getValue());
+	public Document(String name) {
+		this.setName(name);
+		this.sheets = new ArrayList<>();
+		for (int i=0; i<2; i++) {
+			this.sheets.add(new Sheet(this));
 		}
-		cells = newCells;
+	}
+
+	public List<Sheet> getSheets() {
+		return sheets;
+	}
+
+	public void addSheet() {
+		sheets.add(new Sheet(this));
 	}
 	
-	public Cell getCell(List<Coordinate<?>> coords) {
-		if (coords.size() != dimensions.size()) {
-			throw new IllegalArgumentException("invalid number of coordinates, required: "
-					+ dimensions.size()	+ " was: " + coords.size());
-		}
-		Cell result = cells.get(coords);
-		if (result == null) {
-			result = new Cell();
-			cells.put(coords, result);
-		}
-		return result;
+	public String getName() {
+		return name;
 	}
-	
-	public Cell getCell(Coordinate<?>... partialCoords) {
-		List<Coordinate<?>> coords = dimensions.inferFullCoords(partialCoords, this);
-		return getCell(coords);
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	
 }
