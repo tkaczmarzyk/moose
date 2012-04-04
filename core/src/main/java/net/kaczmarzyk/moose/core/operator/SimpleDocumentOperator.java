@@ -1,9 +1,9 @@
 package net.kaczmarzyk.moose.core.operator;
 
-import net.kaczmarzyk.moose.core.document.Coordinates;
+import net.kaczmarzyk.moose.core.document.ObjectAddress;
 import net.kaczmarzyk.moose.core.document.DataObject;
 import net.kaczmarzyk.moose.core.document.Document;
-import net.kaczmarzyk.moose.core.parser.CoordinatesParser;
+import net.kaczmarzyk.moose.core.parser.AddressParser;
 import net.kaczmarzyk.moose.core.parser.DataObjectParser;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
 import net.kaczmarzyk.moose.core.recalc.Recalculator;
@@ -19,7 +19,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	private DataObjectParser objectParser;
 	
 	@Autowired
-	private CoordinatesParser coordsParser;
+	private AddressParser coordsParser;
 	
 	@Autowired
 	private Recalculator recalculator;
@@ -36,10 +36,10 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	
 	@Override
 	public void assign(String coordinates, String valueDefinition) {
-		Coordinates coords = coordsParser.parse(coordinates);
+		ObjectAddress coords = coordsParser.parse(coordinates);
 		DataObject value = objectParser.parse(doc, valueDefinition);
 		
-		doc.getCell(coords).setValue(value);
+		doc.getCell(coords.getCellAddr()).setValue(value);
 		
 		recalculator.recalculate(doc);
 	}
@@ -56,7 +56,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 
 	@Override
 	public DataObject getValue(String coordinatesDef) {
-		return doc.getCell(coordsParser.parse(coordinatesDef)).getValue();
+		return doc.getCell(coordsParser.parse(coordinatesDef).getCellAddr()).getValue();
 	}
 	
 	public T getProcessedValue(String coordinatesDef) {

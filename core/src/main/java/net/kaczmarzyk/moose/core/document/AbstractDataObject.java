@@ -11,6 +11,16 @@ public abstract class AbstractDataObject implements DataObject {
 		this.doc = doc;
 	}
 	
-	public void refresh(Sheet sheet, Coordinates coords) {
+	@Override
+	public void refresh(Sheet sheet, CellAddress addr) {
+	}
+	
+	@Override
+	public DataObject getProperty(Path path) {
+		DataObject result = this;
+		for (String property : path.getPropertyChain()) {
+			result = result.getProperty(property);
+		}
+		return result;
 	}
 }

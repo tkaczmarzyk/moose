@@ -34,4 +34,9 @@ public class Scalar<T> extends AbstractDataObject {
 	public T getValue() {
 		return value;
 	}
+
+	@Override
+	public DataObject getProperty(Path path) {
+		return path.getPropertyChain().isEmpty() ? this : null;
+	}
 }

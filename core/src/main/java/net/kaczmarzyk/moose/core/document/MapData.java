@@ -1,7 +1,7 @@
 package net.kaczmarzyk.moose.core.document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ public class MapData extends AbstractDataObject {
 	
 	public MapData(Document doc) {
 		super(doc);
-		this.properties = new HashMap<>();
+		this.properties = new LinkedHashMap<>();
 	}
 	
 	@Override
@@ -31,6 +31,10 @@ public class MapData extends AbstractDataObject {
 	@Override
 	public <T> T accept(DataProcessor<T> visitor) {
 		return visitor.process(this);
+	}
+	
+	public void put(String propName, DataObject value) {
+		properties.put(propName, value);
 	}
 
 }

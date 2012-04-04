@@ -35,7 +35,7 @@ public class Document {
 		this.name = name;
 	}
 
-	public Cell getCell(Coordinates coords) {
-		return sheets.get(0).getCell(coords); //FIXME handle multiple sheets
+	public Cell getCell(CellAddress addr) {
+		return sheets.get(0).getCell(addr); //FIXME handle multiple sheets
 	}
 }

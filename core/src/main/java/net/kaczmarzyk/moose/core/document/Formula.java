@@ -36,7 +36,8 @@ public class Formula extends AbstractDataObject {
 	}
 
 	@Override
-	public void refresh(Sheet sheet, Coordinates coords) {
-		cachedResult = expression.evaluate(sheet, coords); // FIXME use flags
+	public void refresh(Sheet sheet, CellAddress addr) {
+		cachedResult = expression.evaluate(sheet, addr); // FIXME use flags
 	}
+
 }

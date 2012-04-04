@@ -14,7 +14,7 @@ public class BruteForceRecalculator implements Recalculator {
 	public void recalculate(Document doc) {
 		for (Sheet sheet : doc.getSheets()) {
 			for (Cell cell : sheet.getCells()) {
-				cell.getValue().refresh(sheet, cell.getCoordinates());
+				cell.getValue().refresh(sheet, cell.getAddress());
 			}
 		}
 		// TODO proper implementation

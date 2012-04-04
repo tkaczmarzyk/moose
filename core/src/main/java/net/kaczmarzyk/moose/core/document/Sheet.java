@@ -13,7 +13,7 @@ public class Sheet {
 	
 	private DimensionsList dimensions;
 	
-	private Map<Coordinates, Cell> cells;
+	private Map<CellAddress, Cell> cells;
 	
 	
 	public Sheet(Document doc) {
@@ -27,16 +27,16 @@ public class Sheet {
 	
 	public <T> void addDimension(Dimension<T> dimension, Coordinate<T> currentCoordinate) {
 		dimensions.add(dimension);
-		Map<Coordinates, Cell> newCells = new HashMap<>();
-		for (Map.Entry<Coordinates, Cell> entry : cells.entrySet()) {
-			Coordinates newKey = entry.getKey();
+		Map<CellAddress, Cell> newCells = new HashMap<>();
+		for (Map.Entry<CellAddress, Cell> entry : cells.entrySet()) {
+			CellAddress newKey = entry.getKey();
 			newKey.add(currentCoordinate);
 			newCells.put(newKey, entry.getValue());
 		}
 		cells = newCells;
 	}
 	
-	public Cell getCell(Coordinates coords) {
+	public Cell getCell(CellAddress coords) {
 		if (coords.size() != dimensions.size()) {
 			throw new IllegalArgumentException("invalid number of coordinates, required: "
 					+ dimensions.size()	+ " was: " + coords.size());
@@ -50,7 +50,7 @@ public class Sheet {
 	}
 	
 	public Cell getCell(Coordinate<?>... partialCoords) {
-		Coordinates coords = dimensions.inferFullCoords(partialCoords, this);
+		CellAddress coords = dimensions.inferAddress(partialCoords, this);
 		return getCell(coords);
 	}
 
