@@ -23,15 +23,19 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	}
 	
 	@Test
+	public void shouldStoreAnExplicitValue() {
+		docOp.assign("A1", "3");
+		assertEquals("(3)", docOp.getProcessedValue("A1"));
+	}
+	
+	@Test
 	public void shouldBeAbleToReferenceAnExplicitDataObject() {
 		docOp.assign("A1", "2"); // TODO converters (i.e. this example should create integer data instead of string)
 		docOp.assign("A2", "=A1");
 		
-		assertEquals("(2)", docOp.getProcessedValue("A1"));
 		assertEquals("(2)", docOp.getProcessedValue("A2"));
 		
 		docOp.assign("A1", "3");
-		assertEquals("(3)", docOp.getProcessedValue("A1"));
 		assertEquals("(3)", docOp.getProcessedValue("A2"));
 	}
 	
@@ -51,5 +55,12 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		
 		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet 1!A1"));
 		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet 2!A2"));
+	}
+	
+	@Test
+	public void shouldUseDefaultSheetIfNotProvidedInAddress() {
+		docOp.assign("A1", "33");
+		
+		assertEquals("(33)", docOp.getProcessedValue("Sheet 1!A1"));
 	}
 }
