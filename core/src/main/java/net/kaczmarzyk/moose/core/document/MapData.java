@@ -13,8 +13,8 @@ public class MapData extends AbstractDataObject {
 	private Map<String, DataObject> properties;
 
 	
-	public MapData(Document doc) {
-		super(doc);
+	public MapData(Sheet sheet) {
+		super(sheet);
 		this.properties = new LinkedHashMap<>();
 	}
 	

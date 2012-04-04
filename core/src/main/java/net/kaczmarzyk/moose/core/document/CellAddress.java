@@ -5,17 +5,18 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class CellAddress {
+public class CellAddress { // FIXME add sheet // FIXME handle relative coords
 
+	private Sheet sheet;
 	private List<Coordinate<?>> coords;
 	
 	
-	public CellAddress(List<Coordinate<?>> coords) {
+	public CellAddress(Sheet sheet, List<Coordinate<?>> coords) {
 		this.coords = coords;
 	}
 	
-	public CellAddress(Coordinate<String> columnCoord, Coordinate<Integer> rowCoord) {
-		this(new ArrayList<Coordinate<?>>(Arrays.asList(columnCoord, rowCoord)));
+	public CellAddress(Sheet sheet, Coordinate<String> columnCoord, Coordinate<Integer> rowCoord) {
+		this(sheet, new ArrayList<Coordinate<?>>(Arrays.asList(columnCoord, rowCoord)));
 	}
 
 	public int size() {
@@ -24,6 +25,10 @@ public class CellAddress {
 	
 	public void add(Coordinate<?> coord) {
 		coords.add(coord);
+	}
+	
+	public Sheet getSheet() {
+		return sheet;
 	}
 	
 	@Override

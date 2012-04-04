@@ -43,4 +43,13 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		assertEquals("(x=(12), y=(10))", docOp.getProcessedValue("A1"));
 		assertEquals("(12)", docOp.getProcessedValue("A2"));
 	}
+	
+	@Test
+	public void shouldSupportExplicitReferenceToObjectFromAnotherSheet() {
+		docOp.assign("Sheet 1!A1", "x:2,y:3");
+		docOp.assign("Sheet 2!A2", "=Sheet 1!A1");
+		
+		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet 1!A1"));
+		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet 2!A2"));
+	}
 }

@@ -4,11 +4,11 @@ package net.kaczmarzyk.moose.core.document;
 
 public abstract class AbstractDataObject implements DataObject {
 
-	protected Document doc;
+	protected Sheet sheet;
 	
 	
-	public AbstractDataObject(Document doc) { // FIXME change to sheet reference to handle implicit sheet coordinate!
-		this.doc = doc;
+	public AbstractDataObject(Sheet sheet) { // FIXME change to sheet reference to handle implicit sheet coordinate!
+		this.sheet = sheet;
 	}
 	
 	@Override

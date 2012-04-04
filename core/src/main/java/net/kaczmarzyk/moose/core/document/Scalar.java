@@ -11,8 +11,8 @@ public class Scalar<T> extends AbstractDataObject {
 	private T value;
 	
 	
-	public Scalar(Document doc, T explicitValue) {
-		super(doc);
+	public Scalar(Sheet sheet, T explicitValue) {
+		super(sheet);
 		value = explicitValue;
 	}
 	

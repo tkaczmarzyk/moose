@@ -9,7 +9,7 @@ public interface DataObject {
 
 	List<String> getPropertyNames();
 	
-	DataObject getProperty(String propName); // FIXME nested data objects! // TODO paths?
+	DataObject getProperty(String propName);
 	
 	<T> T accept(DataProcessor<T> visitor);
 	

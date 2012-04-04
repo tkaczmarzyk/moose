@@ -15,8 +15,8 @@ public class Formula extends AbstractDataObject {
 	private boolean upToDate;// TODO and this as well
 	
 	
-	public Formula(Document doc, Expression expression) {
-		super(doc);
+	public Formula(Sheet sheet, Expression expression) {
+		super(sheet);
 		this.expression = expression;
 	}
 
