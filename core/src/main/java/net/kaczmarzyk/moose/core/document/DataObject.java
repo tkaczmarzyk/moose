@@ -7,5 +7,5 @@ public interface DataObject {
 
 	List<String> getPropertyNames();
 	
-	Data<?> getProperty(String propName);
+	Data<?> getProperty(String propName); // FIXME nested data objects! // TODO paths?
 }

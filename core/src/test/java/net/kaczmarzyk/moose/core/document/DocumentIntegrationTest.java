@@ -2,28 +2,29 @@ package net.kaczmarzyk.moose.core.document;
 
 import static org.junit.Assert.*;
 import net.kaczmarzyk.moose.core.Integration;
+import net.kaczmarzyk.moose.core.SpringTestBase;
+import net.kaczmarzyk.moose.core.operator.DocumentOperator;
+import net.kaczmarzyk.moose.core.operator.SimpleDocumentOperator;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 
 @Category(Integration.class)
-public class DocumentIntegrationTest {
+public class DocumentIntegrationTest extends SpringTestBase {
 
 	@Test
 	public void shouldBeAbleToReferenceAnExplicitDataObject() {
-		Document doc = new Document("test document");
+		DocumentOperator docOp = new SimpleDocumentOperator("test document");
 		
-		Cell a1 = doc.getCell(new Coordinates(new Coordinate<>("A"), new Coordinate<>(1))); // TODO doc.getCell("A1") ?
-		a1.setValue("2"); // TODO should cell be responsible for parsing? // TODO converters (i.e. this example should create integer data instead of string)
-		Cell a2 = doc.getCell(new Coordinates(new Coordinate<>("A"), new Coordinate<>(2)));
-		a2.setValue("=A1");
+		docOp.assign("A1", "2"); // TODO converters (i.e. this example should create integer data instead of string)
+		docOp.assign("A2", "=A1");
 		
-		assertEquals("2", a1.getValue().getProperty("value").getExplicitValue(doc)); // TODO gentle way of presenting data objects
-		assertEquals("2", a2.getValue().getProperty("value").getExplicitValue(doc));
+		assertEquals("2", docOp.getValue("A1").getProperty("value").getExplicitValue(docOp.getDocument())); // TODO gentle way of presenting data objects
+		assertEquals("2", docOp.getValue("A2").getProperty("value").getExplicitValue(docOp.getDocument()));
 		
-		a1.setValue("3");
-		assertEquals("3", a1.getValue().getProperty("value").getExplicitValue(doc));
-		assertEquals("3", a2.getValue().getProperty("value").getExplicitValue(doc));
+		docOp.assign("A1", "3");
+		assertEquals("3", docOp.getValue("A1").getProperty("value").getExplicitValue(docOp.getDocument()));
+		assertEquals("3", docOp.getValue("A2").getProperty("value").getExplicitValue(docOp.getDocument()));
 	}
 }

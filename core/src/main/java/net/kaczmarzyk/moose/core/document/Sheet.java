@@ -42,7 +42,7 @@ public class Sheet {
 		}
 		Cell result = cells.get(coords);
 		if (result == null) {
-			result = new Cell(doc);
+			result = new Cell();
 			cells.put(coords, result);
 		}
 		return result;

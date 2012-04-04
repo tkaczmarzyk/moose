@@ -3,15 +3,14 @@ package net.kaczmarzyk.moose.core.document;
 import java.util.List;
 
 
-public class DataObjectReference implements DataObject {
+public class DataObjectReference extends AbstractDataObject {
 
 	private Coordinates refCoords;
-	private Document doc;	
 	
 	
-	public DataObjectReference(Coordinates coords, Document doc) {
+	public DataObjectReference(Document doc, Coordinates coords) {
+		super(doc);
 		this.refCoords = coords;
-		this.doc = doc;
 	}
 	
 	@Override

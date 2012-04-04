@@ -10,6 +10,7 @@ public class MapDataObject implements DataObject {
 
 	private Map<String, Data<?>> properties;
 
+	
 	public MapDataObject() {
 		this.properties = new HashMap<>();
 	}
