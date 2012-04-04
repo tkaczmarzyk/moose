@@ -5,13 +5,14 @@ import net.kaczmarzyk.moose.core.document.DataObject;
 import net.kaczmarzyk.moose.core.document.Document;
 import net.kaczmarzyk.moose.core.parser.CoordinatesParser;
 import net.kaczmarzyk.moose.core.parser.DataObjectParser;
+import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 
 @Configurable
-public class SimpleDocumentOperator implements DocumentOperator {
+public class SimpleDocumentOperator<T> implements DocumentOperator {
 
 	@Autowired
 	private DataObjectParser objectParser;
@@ -19,11 +20,14 @@ public class SimpleDocumentOperator implements DocumentOperator {
 	@Autowired
 	private CoordinatesParser coordsParser;
 
+	private DataProcessor<T> dataProcessor;
+	
 	private Document doc;
 	
 	
-	public SimpleDocumentOperator(String documentName) {
-		doc = new Document(documentName);
+	public SimpleDocumentOperator(String documentName, DataProcessor<T> dataProcessor) {
+		this.doc = new Document(documentName);
+		this.dataProcessor = dataProcessor;
 	}
 	
 	@Override
@@ -45,8 +49,11 @@ public class SimpleDocumentOperator implements DocumentOperator {
 	}
 
 	@Override
-	public DataObject getValue(String coodinatesDef) {
-		return doc.getCell(coordsParser.parse(coodinatesDef)).getValue();
+	public DataObject getValue(String coordinatesDef) {
+		return doc.getCell(coordsParser.parse(coordinatesDef)).getValue();
 	}
 	
+	public T getProcessedValue(String coordinatesDef) {
+		return getValue(coordinatesDef).accept(dataProcessor);
+	}
 }

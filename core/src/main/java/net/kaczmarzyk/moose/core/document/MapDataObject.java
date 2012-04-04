@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
-public class MapDataObject implements DataObject {
 
-	private Map<String, Data<?>> properties;
+public class MapDataObject extends AbstractDataObject {
+
+	private Map<String, DataObject> properties;
 
 	
-	public MapDataObject() {
+	public MapDataObject(Document doc) {
+		super(doc);
 		this.properties = new HashMap<>();
 	}
 	
@@ -21,7 +24,13 @@ public class MapDataObject implements DataObject {
 	}
 
 	@Override
-	public Data<?> getProperty(String propName) {
+	public DataObject getProperty(String propName) {
 		return properties.get(propName);
 	}
+	
+	@Override
+	public <T> T accept(DataProcessor<T> visitor) {
+		return visitor.process(this);
+	}
+
 }

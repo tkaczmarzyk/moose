@@ -19,7 +19,7 @@ public class PocDataObjectParser implements DataObjectParser {
 	@Override
 	public DataObject parse(Document doc, String input) {
 		if (!input.startsWith("=")) {
-			return new ScalarDataObject(input) ;
+			return new ScalarDataObject(doc, input) ;
 		}
 		else {
 			return evaluate(doc, input.substring(1));
