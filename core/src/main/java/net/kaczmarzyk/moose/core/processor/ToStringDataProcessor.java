@@ -1,13 +1,13 @@
 package net.kaczmarzyk.moose.core.processor;
 
 import net.kaczmarzyk.moose.core.document.DataObject;
-import net.kaczmarzyk.moose.core.document.ScalarDataObject;
+import net.kaczmarzyk.moose.core.document.Scalar;
 
 
 public class ToStringDataProcessor implements DataProcessor<String> {
 
 	@Override
-	public String process(ScalarDataObject<?> scalarData) {
+	public String process(Scalar<?> scalarData) {
 		return "(" + scalarData.getValue().toString() + ")";
 	}
 	

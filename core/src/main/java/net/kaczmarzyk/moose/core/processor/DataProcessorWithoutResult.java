@@ -1,13 +1,13 @@
 package net.kaczmarzyk.moose.core.processor;
 
 import net.kaczmarzyk.moose.core.document.DataObject;
-import net.kaczmarzyk.moose.core.document.ScalarDataObject;
+import net.kaczmarzyk.moose.core.document.Scalar;
 
 
 public abstract class DataProcessorWithoutResult implements DataProcessor<Object> {
 
 	@Override
-	public final Object process(ScalarDataObject<?> scalarData) {
+	public final Object process(Scalar<?> scalarData) {
 		doProcess(scalarData);
 		return null;
 	}
@@ -19,5 +19,5 @@ public abstract class DataProcessorWithoutResult implements DataProcessor<Object
 	}
 
 	protected abstract void doProcess(DataObject data);
-	protected abstract void doProcess(ScalarDataObject<?> scalarData);
+	protected abstract void doProcess(Scalar<?> scalarData);
 }

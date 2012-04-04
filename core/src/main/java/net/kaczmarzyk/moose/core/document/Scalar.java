@@ -6,12 +6,12 @@ import java.util.List;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
 
-public class ScalarDataObject<T> extends AbstractDataObject {
+public class Scalar<T> extends AbstractDataObject {
 
 	private T value;
 	
 	
-	public ScalarDataObject(Document doc, T explicitValue) {
+	public Scalar(Document doc, T explicitValue) {
 		super(doc);
 		value = explicitValue;
 	}

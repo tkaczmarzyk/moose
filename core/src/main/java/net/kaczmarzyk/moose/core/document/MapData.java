@@ -8,12 +8,12 @@ import java.util.Map;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
 
-public class MapDataObject extends AbstractDataObject {
+public class MapData extends AbstractDataObject {
 
 	private Map<String, DataObject> properties;
 
 	
-	public MapDataObject(Document doc) {
+	public MapData(Document doc) {
 		super(doc);
 		this.properties = new HashMap<>();
 	}
