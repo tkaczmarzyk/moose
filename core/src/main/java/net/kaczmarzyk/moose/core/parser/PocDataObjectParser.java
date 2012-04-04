@@ -1,9 +1,10 @@
 package net.kaczmarzyk.moose.core.parser;
 
 import net.kaczmarzyk.moose.core.document.DataObject;
-import net.kaczmarzyk.moose.core.document.DataObjectReference;
 import net.kaczmarzyk.moose.core.document.Document;
+import net.kaczmarzyk.moose.core.document.Formula;
 import net.kaczmarzyk.moose.core.document.ScalarDataObject;
+import net.kaczmarzyk.moose.core.expression.ObjectReferenceExpression;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class PocDataObjectParser implements DataObjectParser {
 	@Override
 	public DataObject parse(Document doc, String input) {
 		if (!input.startsWith("=")) {
-			return new ScalarDataObject(doc, input) ;
+			return new ScalarDataObject<String>(doc, input) ;
 		}
 		else {
 			return evaluate(doc, input.substring(1));
@@ -27,7 +28,7 @@ public class PocDataObjectParser implements DataObjectParser {
 	}
 
 	private DataObject evaluate(Document doc, String coordsDef) {
-		return new DataObjectReference(doc, coordsParser.parse(coordsDef)); //FIXME null
+		return new Formula(doc, new ObjectReferenceExpression(coordsParser.parse(coordsDef)));
 	}
 
 }

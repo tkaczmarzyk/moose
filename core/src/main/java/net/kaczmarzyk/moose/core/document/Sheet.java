@@ -1,5 +1,6 @@
 package net.kaczmarzyk.moose.core.document;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class Sheet {
 		}
 		Cell result = cells.get(coords);
 		if (result == null) {
-			result = new Cell();
+			result = new Cell(coords);
 			cells.put(coords, result);
 		}
 		return result;
@@ -67,5 +68,9 @@ public class Sheet {
 	
 	public DimensionsList getDimensions() {
 		return dimensions;
+	}
+
+	public Collection<Cell> getCells() {
+		return cells.values();
 	}
 }

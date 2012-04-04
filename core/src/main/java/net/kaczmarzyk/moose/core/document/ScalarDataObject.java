@@ -6,12 +6,12 @@ import java.util.List;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
 
-public class ScalarDataObject extends AbstractDataObject {
+public class ScalarDataObject<T> extends AbstractDataObject {
 
-	private Object value;
+	private T value;
 	
 	
-	public ScalarDataObject(Document doc, Object explicitValue) {
+	public ScalarDataObject(Document doc, T explicitValue) {
 		super(doc);
 		value = explicitValue;
 	}
@@ -27,11 +27,11 @@ public class ScalarDataObject extends AbstractDataObject {
 	}
 	
 	@Override
-	public <T> T accept(DataProcessor<T> visitor) {
+	public <K> K accept(DataProcessor<K> visitor) {
 		return visitor.process(this);
 	}
 	
-	public Object getValue() {
+	public T getValue() {
 		return value;
 	}
 }

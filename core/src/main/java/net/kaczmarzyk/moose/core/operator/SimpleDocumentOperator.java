@@ -6,6 +6,7 @@ import net.kaczmarzyk.moose.core.document.Document;
 import net.kaczmarzyk.moose.core.parser.CoordinatesParser;
 import net.kaczmarzyk.moose.core.parser.DataObjectParser;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
+import net.kaczmarzyk.moose.core.recalc.Recalculator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -19,6 +20,9 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	
 	@Autowired
 	private CoordinatesParser coordsParser;
+	
+	@Autowired
+	private Recalculator recalculator;
 
 	private DataProcessor<T> dataProcessor;
 	
@@ -36,6 +40,8 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 		DataObject value = objectParser.parse(doc, valueDefinition);
 		
 		doc.getCell(coords).setValue(value);
+		
+		recalculator.recalculate(doc);
 	}
 
 	@Override

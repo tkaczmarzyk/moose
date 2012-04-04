@@ -5,9 +5,11 @@ package net.kaczmarzyk.moose.core.document;
 public class Cell {
 
 	private DataObject value;
+	private Coordinates coords;
 	
 	
-	public Cell() {
+	public Cell(Coordinates coords) {
+		this.coords = coords;
 	}
 	
 	public DataObject getValue() {
@@ -20,5 +22,9 @@ public class Cell {
 
 	public void setValue(DataObject value) {
 		this.value = value;
+	}
+	
+	public Coordinates getCoordinates() {
+		return coords;
 	}
 }

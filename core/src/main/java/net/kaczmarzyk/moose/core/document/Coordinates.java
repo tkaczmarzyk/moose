@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Coordinates {
+public class Coordinates { // FIXME add sheet // FIXME handle relative coords //FIXME handle property paths
 
 	private List<Coordinate<?>> coords;
 	
