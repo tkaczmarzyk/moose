@@ -16,4 +16,8 @@ public interface DataObject {
 	void refresh(CellAddress addr); // FIXME i don't like the parameters// FIXME cell or obj address?
 
 	DataObject getProperty(Path path);
+
+	DataObject copy();
+
+	void setProperty(Path path, DataObject obj);
 }

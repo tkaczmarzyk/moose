@@ -1,7 +1,7 @@
 package net.kaczmarzyk.moose.core.document;
 
 
-public class Cell {
+public class Cell { // FIXME do i really need cells? maybe DataObject is enough
 
 	private DataObject value;
 	private CellAddress address;
@@ -12,6 +12,9 @@ public class Cell {
 	}
 	
 	public DataObject getValue() {
+		if (value == null) {
+			value = new NullObject(new ObjectAddress(address, Path.IN_PLACE)); //TODO factory method for inplace address
+		}
 		return value;
 	}
 	
@@ -25,5 +28,13 @@ public class Cell {
 	
 	public CellAddress getAddress() {
 		return address;
+	}
+
+	public void put(DataObject obj, Path path) {
+		getValue().setProperty(path, obj);
+	}
+
+	public void put(DataObject obj) {
+		value = obj;
 	}
 }

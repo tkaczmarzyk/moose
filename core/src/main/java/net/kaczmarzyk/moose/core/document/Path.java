@@ -6,6 +6,9 @@ import java.util.List;
 
 
 public class Path {
+	
+	public static final Path IN_PLACE = new Path();
+	
 	private List<String> propertyChain;
 	
 	
@@ -19,5 +22,21 @@ public class Path {
 
 	public List<String> getPropertyChain() {
 		return propertyChain;
+	}
+
+	public Path getObjectPath() {
+		return new Path(propertyChain.subList(0, propertyChain.size() - 1));
+	}
+
+	public Path getLastProperty() {
+		return new Path(propertyChain.get(propertyChain.size() - 1));
+	}
+	
+	public boolean isSingleProperty() {
+		return propertyChain.size() == 1;
+	}
+	
+	public boolean isInPlace() {
+		return propertyChain.isEmpty();
 	}
 }

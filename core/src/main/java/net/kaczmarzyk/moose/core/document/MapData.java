@@ -37,4 +37,22 @@ public class MapData extends AbstractDataObject {
 		properties.put(propName, value);
 	}
 
+	@Override
+	public DataObject copy() {
+		MapData copy = new MapData(sheet);
+		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
+			copy.put(property.getKey(), property.getValue().copy());
+		}
+		return copy;
+	}
+
+	@Override
+	public void setProperty(Path path, DataObject obj) {
+		DataObject target = this;
+		for (String property : path.getObjectPath().getPropertyChain()) {
+			target = target.getProperty(property);
+		}
+		((MapData)target).properties.put(path.getLastProperty().getPropertyChain().get(0), obj); // FIXME casting // FIXME resolving last propName
+	}
+
 }

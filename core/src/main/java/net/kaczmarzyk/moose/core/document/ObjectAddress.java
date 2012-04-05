@@ -21,4 +21,12 @@ public class ObjectAddress {
 		return path;
 	}
 
+	public DataObject getObject() {
+		return cellAddr.getCell().getValue();
+	}
+
+	public void put(DataObject obj) {
+		cellAddr.getCell().put(obj, path);
+	}
+
 }

@@ -6,7 +6,7 @@ import net.kaczmarzyk.moose.core.document.Document;
 
 public interface DocumentOperator {
 
-	void assign(String coordinatesDef, String valueDefinition);
+	DocumentOperator assign(String coordinatesDef, String valueDefinition);
 	String getDefinition(String coordinatesDef);
 	DataObject getValue(String coodinatesDef);
 	

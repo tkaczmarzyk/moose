@@ -1,8 +1,8 @@
 package net.kaczmarzyk.moose.core.operator;
 
-import net.kaczmarzyk.moose.core.document.ObjectAddress;
 import net.kaczmarzyk.moose.core.document.DataObject;
 import net.kaczmarzyk.moose.core.document.Document;
+import net.kaczmarzyk.moose.core.document.ObjectAddress;
 import net.kaczmarzyk.moose.core.document.Sheet;
 import net.kaczmarzyk.moose.core.parser.AddressParser;
 import net.kaczmarzyk.moose.core.parser.DataObjectParser;
@@ -20,7 +20,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	private DataObjectParser objectParser;
 	
 	@Autowired
-	private AddressParser coordsParser;
+	private AddressParser addrParser;
 	
 	@Autowired
 	private Recalculator recalculator;
@@ -37,13 +37,15 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	}
 	
 	@Override
-	public void assign(String coordinatesDef, String valueDefinition) {
-		ObjectAddress coords = coordsParser.parse(currentSheet, coordinatesDef);
+	public SimpleDocumentOperator<T> assign(String coordinatesDef, String valueDefinition) {
+		ObjectAddress coords = addrParser.parse(currentSheet, coordinatesDef);
 		DataObject value = objectParser.parse(currentSheet, valueDefinition);
 		
 		doc.getCell(coords.getCellAddr()).setValue(value);
 		
 		recalculator.recalculate(doc);
+		
+		return this;
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 
 	@Override
 	public DataObject getValue(String coordinatesDef) {
-		return doc.getCell(coordsParser.parse(currentSheet, coordinatesDef).getCellAddr()).getValue();
+		return doc.getCell(addrParser.parse(currentSheet, coordinatesDef).getCellAddr()).getValue();
 	}
 	
 	public T getProcessedValue(String coordinatesDef) {
@@ -67,5 +69,13 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	
 	public void setDataProcessor(DataProcessor<? extends T> processor) {
 		this.dataProcessor = processor;
+	}
+
+	public void copy(String sourceAddrDef, String targetAddrRef) {
+		ObjectAddress sourceAddr = addrParser.parse(currentSheet, sourceAddrDef);
+		ObjectAddress targetAddr = addrParser.parse(currentSheet, targetAddrRef);
+		DataObject obj = sourceAddr.getObject();
+		targetAddr.put(obj.copy());
+		recalculator.recalculate(doc);
 	}
 }

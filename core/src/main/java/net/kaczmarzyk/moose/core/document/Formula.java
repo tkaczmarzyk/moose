@@ -40,4 +40,14 @@ public class Formula extends AbstractDataObject {
 		cachedResult = expression.evaluate(addr); // FIXME use flags
 	}
 
+	@Override
+	public DataObject copy() {
+		return new Formula(sheet, expression);
+	}
+
+	@Override
+	public void setProperty(Path path, DataObject obj) {
+		throw new UnsupportedOperationException("this is calculated object, cannot set property"); // TODO nicer way...
+	}
+
 }

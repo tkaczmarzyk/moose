@@ -72,4 +72,21 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		docOp.assign("A2", "=abs(A1)");
 		assertEquals(22.0, docOp.getProcessedValue("A2"));
 	}
+	
+	@Test
+	public void shouldBeAbleToCopyCellValue() {
+		docOp.assign("A1", "2");
+		docOp.copy("A1", "A2");
+		
+		assertEquals(2.0, docOp.getProcessedValue("A2"));
+	}
+	
+	@Test
+	public void shouldHandleRelativeAddressDuringCopying() {
+		docOp.assign("A1", "2").assign("B1", "3");
+		docOp.assign("A2", "=A1");
+		docOp.copy("A2", "B2");
+		
+		assertEquals(3.0, docOp.getProcessedValue("B2"));
+	}
 }

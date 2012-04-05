@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
+import net.kaczmarzyk.moose.support.utils.ObjectUtil;
 
 
 public class Scalar<T> extends AbstractDataObject {
@@ -38,5 +39,15 @@ public class Scalar<T> extends AbstractDataObject {
 	@Override
 	public DataObject getProperty(Path path) {
 		return path.getPropertyChain().isEmpty() ? this : null;
+	}
+
+	@Override
+	public Scalar<T> copy() {
+		return new Scalar<T>(sheet, ObjectUtil.copy(value));
+	}
+
+	@Override
+	public void setProperty(Path path, DataObject obj) {
+		throw new UnsupportedOperationException();
 	}
 }

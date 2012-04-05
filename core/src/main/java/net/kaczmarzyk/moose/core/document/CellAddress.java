@@ -49,4 +49,8 @@ public class CellAddress { // FIXME handle relative coords
 			return false;
 		}
 	}
+
+	public Cell getCell() { // TODO cache
+		return sheet.getCell(this); // FIXME arg?
+	}
 }
