@@ -7,13 +7,12 @@ import net.kaczmarzyk.moose.core.processor.DataProcessor;
 import net.kaczmarzyk.moose.support.utils.ObjectUtil;
 
 
-public class Scalar<T> extends AbstractDataObject {
+public class Scalar<T> implements DataObject {
 
 	private T value;
 	
 	
-	public Scalar(Sheet sheet, T explicitValue) {
-		super(sheet);
+	public Scalar(T explicitValue) {
 		value = explicitValue;
 	}
 	
@@ -43,11 +42,19 @@ public class Scalar<T> extends AbstractDataObject {
 
 	@Override
 	public Scalar<T> copy() {
-		return new Scalar<T>(sheet, ObjectUtil.copy(value));
+		return new Scalar<T>(ObjectUtil.copy(value));
 	}
 
 	@Override
 	public void setProperty(Path path, DataObject obj) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void refresh(CellAddress addr) {
+	}
+
+	@Override
+	public void placedInCell(CellAddress address) {
 	}
 }

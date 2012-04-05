@@ -3,6 +3,7 @@ package net.kaczmarzyk.moose.core.parser;
 import net.kaczmarzyk.moose.core.document.DataObject;
 import net.kaczmarzyk.moose.core.document.Formula;
 import net.kaczmarzyk.moose.core.document.MapData;
+import net.kaczmarzyk.moose.core.document.ObjectAddress;
 import net.kaczmarzyk.moose.core.document.Scalar;
 import net.kaczmarzyk.moose.core.document.Sheet;
 import net.kaczmarzyk.moose.core.expression.Expression;
@@ -31,9 +32,9 @@ public class PocDataObjectParser implements DataObjectParser {
 			if (!input.contains(":")) {
 				try {
 					Double d = Double.parseDouble(input);
-					return new Scalar<Double>(sheet, d);
+					return new Scalar<Double>(d);
 				} catch (NumberFormatException e) {
-					return new Scalar<String>(sheet, input);
+					return new Scalar<String>(input);
 				}
 			}
 			else {
@@ -46,16 +47,16 @@ public class PocDataObjectParser implements DataObjectParser {
 	}
 
 	private DataObject parseMapData(Sheet sheet, String input) {
-		MapData map = new MapData(sheet);
+		MapData map = new MapData(new ObjectAddress(null, null)); // TODO
 		for (String pair : input.split(",")) {
 			String[] keyval = pair.split(":");
-			map.put(keyval[0], new Scalar<String>(sheet, keyval[1]));
+			map.put(keyval[0], new Scalar<String>(keyval[1]));
 		}
 		return map;
 	}
 
 	private DataObject evaluate(Sheet sheet, String exprDef) {
-		return new Formula(sheet, refOrAbs(sheet, exprDef));
+		return new Formula(refOrAbs(sheet, exprDef));
 	}
 
 	private Expression refOrAbs(Sheet sheet, String exprDef) {

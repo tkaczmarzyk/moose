@@ -38,10 +38,6 @@ public class Document { // TODO add currentSheet
 		this.name = name;
 	}
 
-	public Cell getCell(CellAddress addr) {
-		return sheets.get(0).getCell(addr); //FIXME handle multiple sheets
-	}
-
 	public Sheet getSheet(final String sheetName) {
 		return Collections2.filter(sheets, new Predicate<Sheet>() {
 			@Override

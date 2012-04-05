@@ -20,4 +20,6 @@ public interface DataObject {
 	DataObject copy();
 
 	void setProperty(Path path, DataObject obj);
+
+	void placedInCell(CellAddress address);
 }

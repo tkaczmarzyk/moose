@@ -24,6 +24,7 @@ public class Cell { // FIXME do i really need cells? maybe DataObject is enough
 
 	public void setValue(DataObject value) {
 		this.value = value;
+		value.placedInCell(address);
 	}
 	
 	public CellAddress getAddress() {

@@ -22,7 +22,7 @@ public class Abs implements Function {
 	@Override
 	public DataObject call(CellAddress address, List<Expression> args) {
 		DataObject result = args.get(0).evaluate(address);
-		return new Scalar<Double>(address.getSheet(), Math.abs(((Scalar<Double>) result).getValue()));
+		return new Scalar<Double>(Math.abs(((Scalar<Double>) result).getValue()));
 	}
 
 }

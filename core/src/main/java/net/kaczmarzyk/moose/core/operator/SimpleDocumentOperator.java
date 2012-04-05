@@ -41,7 +41,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 		ObjectAddress coords = addrParser.parse(currentSheet, coordinatesDef);
 		DataObject value = objectParser.parse(currentSheet, valueDefinition);
 		
-		doc.getCell(coords.getCellAddr()).setValue(value);
+		coords.getCellAddr().getCell().setValue(value);
 		
 		recalculator.recalculate(doc);
 		
@@ -60,7 +60,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 
 	@Override
 	public DataObject getValue(String coordinatesDef) {
-		return doc.getCell(addrParser.parse(currentSheet, coordinatesDef).getCellAddr()).getValue();
+		return addrParser.parse(currentSheet, coordinatesDef).getCellAddr().getCell().getValue();
 	}
 	
 	public T getProcessedValue(String coordinatesDef) {

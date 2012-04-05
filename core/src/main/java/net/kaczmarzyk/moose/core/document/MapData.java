@@ -13,8 +13,8 @@ public class MapData extends AbstractDataObject {
 	private Map<String, DataObject> properties;
 
 	
-	public MapData(Sheet sheet) {
-		super(sheet);
+	public MapData(ObjectAddress addr) {
+		super(addr);
 		this.properties = new LinkedHashMap<>();
 	}
 	
@@ -25,7 +25,8 @@ public class MapData extends AbstractDataObject {
 
 	@Override
 	public DataObject getProperty(String propName) {
-		return properties.get(propName);
+		DataObject result = properties.get(propName);
+		return result != null ? result : new NullObject(addr.withExtendedPath(propName));
 	}
 	
 	@Override
@@ -38,8 +39,17 @@ public class MapData extends AbstractDataObject {
 	}
 
 	@Override
+	public DataObject getProperty(Path path) {
+		DataObject result = this;
+		for (String property : path.getPropertyChain()) {
+			result = result.getProperty(property);
+		}
+		return result;
+	}
+	
+	@Override
 	public DataObject copy() {
-		MapData copy = new MapData(sheet);
+		MapData copy = new MapData(addr);
 		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
 			copy.put(property.getKey(), property.getValue().copy());
 		}
@@ -48,17 +58,26 @@ public class MapData extends AbstractDataObject {
 
 	@Override
 	public void setProperty(Path path, DataObject obj) {
-		DataObject target = this;
-		for (String property : path.getObjectPath().getPropertyChain()) {
-			target = target.getProperty(property);
+		if (path.isSingleProperty()) {
+			properties.put(path.getPropertyChain().get(0), obj);
 		}
-		((MapData)target).properties.put(path.getLastProperty().getPropertyChain().get(0), obj); // FIXME casting // FIXME resolving last propName
+		else {
+			getProperty(path.getPropertyChain().get(0)).setProperty(path.step(), obj);
+		}
 	}
 
 	@Override
 	public void refresh(CellAddress addr) {
 		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
 			property.getValue().refresh(addr);
+		}
+	}
+
+	@Override
+	public void placedInCell(CellAddress cellAddr) {
+		this.addr = new ObjectAddress(cellAddr, addr.getPath()); // TODO factory method
+		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
+			property.getValue().placedInCell(cellAddr);
 		}
 	}
 }

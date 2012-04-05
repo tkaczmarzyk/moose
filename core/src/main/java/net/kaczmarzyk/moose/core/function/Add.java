@@ -23,7 +23,7 @@ public class Add implements Function { // TODO
 	public DataObject call(CellAddress address, List<Expression> args) {
 		Scalar<Double> arg1 = (Scalar<Double>) args.get(0).evaluate(address);
 		Scalar<Double> arg2 = (Scalar<Double>) args.get(1).evaluate(address);
-		return new Scalar<>(address.getSheet(), arg1.getValue() + arg2.getValue());
+		return new Scalar<>(arg1.getValue() + arg2.getValue());
 	}
 
 }

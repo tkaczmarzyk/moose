@@ -22,7 +22,7 @@ public class NullObject implements DataObject {
 
 	@Override
 	public DataObject getProperty(String propName) {
-		return null;
+		return new NullObject(addr.withExtendedPath(propName));
 	}
 
 	@Override
@@ -45,19 +45,25 @@ public class NullObject implements DataObject {
 	}
 
 	@Override
-	public void setProperty(Path path, DataObject obj) { // FIXME avoid ifs // FIXME generally it's wrong -- cell/object address confusin
+	public void setProperty(Path path, DataObject obj) { // FIXME avoid ifs
 		if (path.isInPlace()) {
-			addr.getCellAddr().getCell().put(obj);
-		}
-		else if (path.isSingleProperty()) {
-			MapData map = new MapData(addr.getCellAddr().getSheet());
-			map.put(path.getPropertyChain().get(0), obj); // FIXME resolving prop name
-			addr.getCellAddr().getCell().put(map, Path.IN_PLACE);
+			if (addr.getPath().isInPlace()) {
+				addr.getCellAddr().getCell().put(obj);
+			}
+			else {
+				addr.put(obj);
+			}
 		}
 		else {
-			// TODO
-			throw new UnsupportedOperationException("not yet implemented");
+			MapData map = new MapData(addr);
+			addr.put(map);
+			map.setProperty(path, obj);
 		}
+	}
+
+	@Override
+	public void placedInCell(CellAddress cellAddr) {
+		this.addr = new ObjectAddress(cellAddr, addr.getPath());
 	}
 
 	

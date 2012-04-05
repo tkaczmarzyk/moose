@@ -6,7 +6,7 @@ import net.kaczmarzyk.moose.core.expression.Expression;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
 
-public class Formula extends AbstractDataObject {
+public class Formula implements DataObject {
 
 	private Expression expression;
 	private DataObject cachedResult;
@@ -15,8 +15,7 @@ public class Formula extends AbstractDataObject {
 	private boolean upToDate;// TODO and this as well
 	
 	
-	public Formula(Sheet sheet, Expression expression) {
-		super(sheet);
+	public Formula(Expression expression) {
 		this.expression = expression;
 	}
 
@@ -31,6 +30,11 @@ public class Formula extends AbstractDataObject {
 	}
 
 	@Override
+	public DataObject getProperty(Path path) {
+		return cachedResult.getProperty(path);
+	};
+	
+	@Override
 	public <T> T accept(DataProcessor<T> visitor) {
 		return cachedResult.accept(visitor);
 	}
@@ -42,12 +46,16 @@ public class Formula extends AbstractDataObject {
 
 	@Override
 	public DataObject copy() {
-		return new Formula(sheet, expression);
+		return new Formula(expression);
 	}
 
 	@Override
 	public void setProperty(Path path, DataObject obj) {
 		throw new UnsupportedOperationException("this is calculated object, cannot set property"); // TODO nicer way...
+	}
+
+	@Override
+	public void placedInCell(CellAddress address) {
 	}
 
 }
