@@ -40,7 +40,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	
 	@Before
 	public void initData() {
-		a1 = new CellAddress(sheet, Coordinate.of("A"), Coordinate.of(1));
+		a1 = new CellAddress(sheet, Coordinate.abs(sheet.cols(), 0), Coordinate.abs(sheet.rows(), 0));
 		
 		a1.getCell().put(new Scalar<Double>(2.0), new Path("x"));
 		a1.getCell().put(new Scalar<Double>(3.0), new Path("y"));
@@ -48,7 +48,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		xAddr = new ObjectAddress(a1, new Path("x"));
 		yAddr = new ObjectAddress(a1, new Path("y"));
 		
-		a2 = new CellAddress(sheet, Coordinate.of("A"), Coordinate.of(2));
+		a2 = new CellAddress(sheet, Coordinate.abs(sheet.cols(), 0), Coordinate.abs(sheet.rows(), 1));
 		
 		xAddY = new FunctionCall(add, new ObjectReference(xAddr), new ObjectReference(yAddr));
 	}
@@ -76,4 +76,6 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		
 		assertEquals(2.0, a2.getCell().getValue().getProperty(path).accept(new MapDataProcessor()));
 	}
+	
+	// TODO test for puting data into cell with data (overwriting)
 }

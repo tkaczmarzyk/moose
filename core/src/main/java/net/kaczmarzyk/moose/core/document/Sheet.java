@@ -73,4 +73,14 @@ public class Sheet {
 	public Collection<Cell> getCells() {
 		return cells.values();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Dimension<String> cols() {
+		return (Dimension<String>) dimensions.get(0); // TODO move rows/cols outside collection, since they are not optional
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Dimension<Integer> rows() {
+		return (Dimension<Integer>) dimensions.get(1);
+	}
 }

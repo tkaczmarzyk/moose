@@ -2,25 +2,39 @@ package net.kaczmarzyk.moose.core.document;
 
 public class Coordinate<T> {
 
-	private T value;
+	private Dimension<T> dimension;
+	private boolean absolute;
+	private int shift;
 	
 	
-	public Coordinate(T value) {
-		this.value = value;
+	public Coordinate(Dimension<T> dimension, int value) {
+		this.shift = value;
+		this.dimension = dimension;
 	}
 	
-	public T getValue() {
-		return value;
+	public Coordinate(Dimension<T> dimension, int value, boolean absolute) {
+		this(dimension, value);
+		this.absolute = absolute;
 	}
-
-	public static <K> Coordinate<K> of(K value) {
-		return new Coordinate<K>(value);
+	
+	public Coordinate<T> absolute(Coordinate<T> reference) {
+		if (!reference.absolute) {
+			throw new IllegalArgumentException();
+		}
+		return absolute ? this : abs(dimension, reference.shift + shift);
+	}
+	
+	public T value() {
+		if (!absolute) {
+			throw new IllegalStateException();
+		}
+		return dimension.get(shift);
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Coordinate) {
-			return value.equals(((Coordinate<?>)obj).value);
+			return shift == ((Coordinate<?>)obj).shift;
 		}
 		else {
 			return false;
@@ -29,6 +43,18 @@ public class Coordinate<T> {
 	
 	@Override
 	public int hashCode() {
-		return value.hashCode();
+		return shift;
+	}
+	
+	public static <K> Coordinate<K> rel(Dimension<K> dimension, int shift) {
+		return new Coordinate<K>(dimension, shift);
+	}
+	
+	public static <K> Coordinate<K> abs(Dimension<K> dimension, int shift) {
+		return new Coordinate<K>(dimension, shift, true);
+	}
+
+	public Dimension<T> getDimension() {
+		return dimension;
 	}
 }

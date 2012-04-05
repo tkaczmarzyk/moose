@@ -16,7 +16,7 @@ public class ObjectReference implements Expression {
 	
 	@Override
 	public DataObject evaluate(CellAddress addr) {
-		DataObject referencedObj = refAddress.getCellAddr().getSheet().getCell(refAddress.getCellAddr()).getValue(); // FIXME it's ugly //FIXME handle relative coords
+		DataObject referencedObj = refAddress.getCellAddr().absolute(addr).getCell().getValue();
 		return referencedObj.getProperty(refAddress.getPath());
 	}
 

@@ -6,5 +6,5 @@ import net.kaczmarzyk.moose.core.document.DataObject;
 
 public interface Expression {
 
-	DataObject evaluate(CellAddress address); // FIXME Cell or obj address?
+	DataObject evaluate(CellAddress address); // cell address -- I assume that paths (so that object addresses) are always absolute
 }

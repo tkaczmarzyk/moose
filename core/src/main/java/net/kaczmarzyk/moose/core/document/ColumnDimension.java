@@ -9,27 +9,10 @@ public class ColumnDimension implements Dimension<String> {
 
 	private List<String> columnNames = new ArrayList<>(Arrays.asList(new String[] {"A", "B", "C"}));
 	
-	@Override
-	public CoordinateGenerator<String> coordinateGenerator() {
-		return new CoordinateGenerator<String>() {
-			
-			int i = 0;
-			
-			@Override
-			public Coordinate<String> next() {
-				return new Coordinate<String>(columnNames.get(i++));
-			}
-			
-			@Override
-			public boolean hasNext() {
-				return i < columnNames.size();
-			}
-		};
-	}
 
 	@Override
 	public Coordinate<String> getDefaultCoordinate(Sheet doc) {
-		return Coordinate.of("A");
+		return Coordinate.abs(this, 0);
 	}
 
 	@Override
@@ -49,6 +32,11 @@ public class ColumnDimension implements Dimension<String> {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public String get(int shift) {
+		return columnNames.get(shift);
 	}
 
 }

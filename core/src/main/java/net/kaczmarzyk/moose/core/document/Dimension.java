@@ -2,10 +2,10 @@ package net.kaczmarzyk.moose.core.document;
 
 public interface Dimension<T> {
 
-	CoordinateGenerator<T> coordinateGenerator();
-	
 	Coordinate<T> getDefaultCoordinate(Sheet doc);
 	
 	void extend();
+
+	T get(int shift);
 	
 }
