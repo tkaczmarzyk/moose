@@ -55,4 +55,10 @@ public class MapData extends AbstractDataObject {
 		((MapData)target).properties.put(path.getLastProperty().getPropertyChain().get(0), obj); // FIXME casting // FIXME resolving last propName
 	}
 
+	@Override
+	public void refresh(CellAddress addr) {
+		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
+			property.getValue().refresh(addr);
+		}
+	}
 }
