@@ -25,7 +25,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	@Autowired
 	private Recalculator recalculator;
 
-	private DataProcessor<T> dataProcessor;
+	private DataProcessor<? extends T> dataProcessor;
 	
 	private Document doc;
 	private Sheet currentSheet;
@@ -63,5 +63,9 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 	
 	public T getProcessedValue(String coordinatesDef) {
 		return getValue(coordinatesDef).accept(dataProcessor);
+	}
+	
+	public void setDataProcessor(DataProcessor<? extends T> processor) {
+		this.dataProcessor = processor;
 	}
 }

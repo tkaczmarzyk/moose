@@ -1,7 +1,6 @@
 package net.kaczmarzyk.moose.core.document;
 
 
-
 public class Cell {
 
 	private DataObject value;

@@ -4,7 +4,14 @@ import net.kaczmarzyk.moose.core.document.CellAddress;
 import net.kaczmarzyk.moose.core.document.DataObject;
 
 
-public interface Expression {
+public class Constant implements Expression {
 
-	DataObject evaluate(CellAddress address); // FIXME Cell or obj address?
+	private DataObject value;
+	
+	
+	@Override
+	public DataObject evaluate(CellAddress coords) {
+		return value;
+	}
+
 }

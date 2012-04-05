@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 
 
-public class Document {
+public class Document { // TODO add currentSheet
 
 	private String name;
 	

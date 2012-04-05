@@ -7,12 +7,12 @@ public abstract class AbstractDataObject implements DataObject {
 	protected Sheet sheet;
 	
 	
-	public AbstractDataObject(Sheet sheet) { // FIXME change to sheet reference to handle implicit sheet coordinate!
+	public AbstractDataObject(Sheet sheet) {
 		this.sheet = sheet;
 	}
 	
 	@Override
-	public void refresh(Sheet sheet, CellAddress addr) {
+	public void refresh(CellAddress addr) {
 	}
 	
 	@Override

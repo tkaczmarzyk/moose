@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import net.kaczmarzyk.moose.core.Integration;
 import net.kaczmarzyk.moose.core.SpringTestBase;
 import net.kaczmarzyk.moose.core.operator.SimpleDocumentOperator;
+import net.kaczmarzyk.moose.core.processor.MapDataProcessor;
 import net.kaczmarzyk.moose.core.processor.ToStringDataProcessor;
 
 import org.junit.Before;
@@ -14,33 +15,34 @@ import org.junit.experimental.categories.Category;
 @Category(Integration.class)
 public class DocumentIntegrationTest extends SpringTestBase {
 
-	private SimpleDocumentOperator<String> docOp;
+	private SimpleDocumentOperator<Object> docOp;
 	
 	
 	@Before
 	public void init() {
-		docOp = new SimpleDocumentOperator<>("test document", new ToStringDataProcessor());
+		docOp = new SimpleDocumentOperator<>("test document", new MapDataProcessor());
 	}
 	
 	@Test
 	public void shouldStoreAnExplicitValue() {
-		docOp.assign("A1", "3");
-		assertEquals("(3)", docOp.getProcessedValue("A1"));
+		docOp.assign("A1", "tk");
+		assertEquals("tk", docOp.getProcessedValue("A1"));
 	}
 	
 	@Test
 	public void shouldBeAbleToReferenceAnExplicitDataObject() {
-		docOp.assign("A1", "2"); // TODO converters (i.e. this example should create integer data instead of string)
+		docOp.assign("A1", "tk"); // TODO converters (i.e. this example should create integer data instead of string)
 		docOp.assign("A2", "=A1");
 		
-		assertEquals("(2)", docOp.getProcessedValue("A2"));
+		assertEquals("tk", docOp.getProcessedValue("A2"));
 		
-		docOp.assign("A1", "3");
-		assertEquals("(3)", docOp.getProcessedValue("A2"));
+		docOp.assign("A1", "fu");
+		assertEquals("fu", docOp.getProcessedValue("A2"));
 	}
 	
 	@Test
 	public void shouldBeAbleToReferenceAPropertyOfAnExplicitDataObject() {
+		docOp.setDataProcessor(new ToStringDataProcessor());
 		docOp.assign("A1", "x:12,y:10");
 		docOp.assign("A2", "=A1#x");
 		
@@ -50,6 +52,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	
 	@Test
 	public void shouldSupportExplicitReferenceToObjectFromAnotherSheet() {
+		docOp.setDataProcessor(new ToStringDataProcessor());
 		docOp.assign("Sheet 1!A1", "x:2,y:3");
 		docOp.assign("Sheet 2!A2", "=Sheet 1!A1");
 		
@@ -59,8 +62,14 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	
 	@Test
 	public void shouldUseDefaultSheetIfNotProvidedInAddress() {
-		docOp.assign("A1", "33");
-		
-		assertEquals("(33)", docOp.getProcessedValue("Sheet 1!A1"));
+		docOp.assign("A1", "33t");
+		assertEquals("33t", docOp.getProcessedValue("Sheet 1!A1"));
+	}
+	
+	@Test
+	public void shouldEvaluateFunction() {
+		docOp.assign("A1", "-22.0");
+		docOp.assign("A2", "=abs(A1)");
+		assertEquals(22.0, docOp.getProcessedValue("A2"));
 	}
 }
