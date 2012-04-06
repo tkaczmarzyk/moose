@@ -48,4 +48,8 @@ public class ObjectAddress {
 	public String toString() {
 		return cellAddr + "#" + path;
 	}
+
+	public static ObjectAddress inPlace(CellAddress cellAddr) {
+		return new ObjectAddress(cellAddr, Path.IN_PLACE);
+	}
 }
