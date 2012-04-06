@@ -25,9 +25,9 @@ public class PocAddressParser implements AddressParser {
 		}
 		Coordinate<String> columnCoord = parseCoord(sheet, "C", input);
 		Coordinate<Integer> rowCoord = parseCoord(sheet, "R", input);
-		Path path = new Path();
+		Path path = Path.IN_PLACE;
 		if (input.contains("#")) {
-			path = new Path(input.substring(input.indexOf("#") + 1).split("#"));
+			path = Path.of(input.substring(input.indexOf("#") + 1).split("#"));
 		}
 		return new ObjectAddress(new CellAddress(sheet2, columnCoord, rowCoord), path);
 	}

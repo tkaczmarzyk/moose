@@ -19,7 +19,7 @@ public class Path implements Copyable<Path> {
 		propertyChain = Collections.emptyList();
 	}
 	
-	public Path(String... properties) {
+	private Path(String... properties) {
 		this(new ArrayList<>(Arrays.asList(properties)));
 	}
 	
@@ -71,6 +71,16 @@ public class Path implements Copyable<Path> {
 	@Override
 	public Path copy() {
 		return new Path(new ArrayList<>(propertyChain));
+	}
+
+	public static Path of(String... properties) {
+		return new Path(properties);
+	}
+
+	public Path with(String... properties) {
+		ArrayList<String> extendedPath = new ArrayList<>(propertyChain);
+		extendedPath.addAll(Arrays.asList(properties));
+		return new Path(extendedPath);
 	}
 
 }

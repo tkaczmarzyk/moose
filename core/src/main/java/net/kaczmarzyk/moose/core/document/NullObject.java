@@ -45,7 +45,7 @@ public class NullObject implements DataObject {
 	}
 
 	@Override
-	public void setProperty(Path path, DataObject obj) { // FIXME avoid ifs
+	public void setProperty(Path path, DataObject obj) { // TODO avoid ifs
 		if (path.isInPlace()) {
 			if (addr.getPath().isInPlace()) {
 				addr.getCellAddr().getCell().put(obj);

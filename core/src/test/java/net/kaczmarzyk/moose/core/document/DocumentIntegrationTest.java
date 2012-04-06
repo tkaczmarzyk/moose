@@ -42,11 +42,12 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	public void initData() {
 		a1 = new CellAddress(sheet, Coordinate.abs(sheet.cols(), 0), Coordinate.abs(sheet.rows(), 0));
 		
-		a1.getCell().put(new Scalar<Double>(2.0), new Path("x"));
-		a1.getCell().put(new Scalar<Double>(3.0), new Path("y"));
+		a1.getCell().put(new Scalar<Double>(2.0), Path.of("x"));
+		a1.getCell().put(new Scalar<Double>(3.0), Path.of("y"));
+		a1.getCell().put(new Scalar<Double>(7.0), Path.of("z", "a", "b"));
 		
-		xAddr = new ObjectAddress(a1, new Path("x"));
-		yAddr = new ObjectAddress(a1, new Path("y"));
+		xAddr = new ObjectAddress(a1, Path.of("x"));
+		yAddr = new ObjectAddress(a1, Path.of("y"));
 		
 		a2 = new CellAddress(sheet, Coordinate.abs(sheet.cols(), 0), Coordinate.abs(sheet.rows(), 1));
 		
@@ -55,7 +56,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	
 	@Test
 	public void shouldBeAbleToHaveAMapDataWithScalarsAndFormula() {
-		a1.getCell().put(new Formula(xAddY), new Path("z"));
+		a1.getCell().put(new Formula(xAddY), Path.of("z"));
 		recalculator.recalculate(doc);
 		
 		assertEquals(5.0, a1.getCell().getValue().getProperty("z").accept(new MapDataProcessor()));
@@ -71,11 +72,44 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	
 	@Test
 	public void shouldBeAbleToPutValueOnNestedPath() {
-		Path path = new Path("a", "b", "c", "d");
+		Path path = Path.of("a", "b", "c", "d");
 		a2.getCell().put(new Scalar<>(2.0), path);
 		
 		assertEquals(2.0, a2.getCell().getValue().getProperty(path).accept(new MapDataProcessor()));
 	}
 	
 	// TODO test for puting data into cell with data (overwriting)
+	
+	@Test
+	public void shouldBeAbleToPutReferenceToPropertyOnNestedPath() {
+		Path path = Path.of("a", "b", "c", "d");
+		ObjectReference a1ObjRef = new ObjectReference(new ObjectAddress(a1, Path.of("x")));
+		a2.getCell().put(new Formula(a1ObjRef), path);
+		
+		recalculator.recalculate(doc);
+		
+		assertEquals(2.0, a2.getCell().getValue().getProperty(path).accept(new MapDataProcessor()));
+	}
+	
+	@Test
+	public void shouldBeAbleToPutReferenceTo3rdLevelProperyOnNestedPath() {
+		Path path = Path.of("a", "b", "c", "d");
+		ObjectReference a1ObjRef = new ObjectReference(new ObjectAddress(a1, Path.of("z", "a", "b")));
+		a2.getCell().put(new Formula(a1ObjRef), path);
+		
+		recalculator.recalculate(doc);
+		
+		assertEquals(7.0, a2.getCell().getValue().getProperty(path).accept(new MapDataProcessor()));
+	}
+	
+	@Test
+	public void shouldBeAbleToPutReferenceToNestedSubTreeOnNestedPath() {
+		Path path = Path.of("a", "b", "c", "d");
+		ObjectReference a1ObjRef = new ObjectReference(new ObjectAddress(a1, Path.of("z", "a")));
+		a2.getCell().put(new Formula(a1ObjRef), path);
+		
+		recalculator.recalculate(doc);
+		
+		assertEquals(7.0, a2.getCell().getValue().getProperty(path.with("b")).accept(new MapDataProcessor()));
+	}
 }
