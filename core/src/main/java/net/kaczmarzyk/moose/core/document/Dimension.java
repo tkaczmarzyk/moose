@@ -1,5 +1,6 @@
 package net.kaczmarzyk.moose.core.document;
 
+
 public interface Dimension<T> {
 
 	Coordinate<T> getDefaultCoordinate(Sheet doc);
@@ -7,5 +8,5 @@ public interface Dimension<T> {
 	void extend();
 
 	T get(int shift);
-	
+
 }

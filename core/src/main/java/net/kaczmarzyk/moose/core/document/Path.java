@@ -81,4 +81,18 @@ public class Path implements Copyable<Path> {
 	public String toString() {
 		return "Path" + propertyChain.toString();
 	}
+	
+	@Override
+	public int hashCode() {
+		return propertyChain.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Path) {
+			return propertyChain.equals(((Path)obj).propertyChain);
+		} else {
+			return false;
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package net.kaczmarzyk.moose.core.document;
 
+
 public class RowDimension implements Dimension<Integer> {
 
 	private int numRows = 10;
@@ -25,4 +26,5 @@ public class RowDimension implements Dimension<Integer> {
 	public String toString() {
 		return "Row";
 	}
+	
 }

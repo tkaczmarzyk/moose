@@ -1,5 +1,8 @@
 package net.kaczmarzyk.moose.core.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Coordinate<T> {
 
 	private Dimension<T> dimension;
@@ -61,5 +64,13 @@ public class Coordinate<T> {
 	@Override
 	public String toString() {
 		return String.format("Coord[%s]%s", dimension, absolute ? "[" + shift +"]" : shift);
+	}
+
+	public List<Coordinate<T>> upTo(Coordinate<T> endInclusive) {
+		List<Coordinate<T>> result = new ArrayList<>();
+		for (int i = shift; i <= endInclusive.shift; i++) {
+			result.add(new Coordinate<>(dimension, i));
+		}
+		return result;
 	}
 }

@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class ColumnDimension implements Dimension<String> {
+public class ColumnDimension implements Dimension<String> { // TODO proper impl
 
-	private List<String> columnNames = new ArrayList<>(Arrays.asList(new String[] {"A", "B", "C"}));
+	private List<String> columnNames = new ArrayList<>(Arrays.asList(new String[] {"A", "B", "C", "D", "E"}));
 	
 
 	@Override
@@ -43,4 +43,5 @@ public class ColumnDimension implements Dimension<String> {
 	public String toString() {
 		return "Col";
 	}
+
 }

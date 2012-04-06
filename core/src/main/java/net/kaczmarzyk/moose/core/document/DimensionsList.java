@@ -1,9 +1,11 @@
 package net.kaczmarzyk.moose.core.document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class DimensionsList {
+
+public class DimensionsList implements Iterable<Dimension<?>> {
 
 	private List<Dimension<?>> dimensions = new ArrayList<>();
 
@@ -30,5 +32,10 @@ public class DimensionsList {
 			coords.add(i < partialCoords.length ? partialCoords[i] : dimensions.get(i).getDefaultCoordinate(sheet));
 		}
 		return new CellAddress(sheet, coords);
+	}
+
+	@Override
+	public Iterator<Dimension<?>> iterator() {
+		return dimensions.iterator();
 	}
 }

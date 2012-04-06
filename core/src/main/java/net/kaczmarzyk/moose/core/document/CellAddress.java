@@ -66,8 +66,9 @@ public class CellAddress {
 		}));
 	}
 	
-	protected Coordinate<?> getCoordinate(final Dimension<?> dimension) {
-		return Collections2.filter(coords, new Predicate<Coordinate<?>>() { // TODO introduce map dimension->coord
+	@SuppressWarnings("unchecked")
+	public <L> Coordinate<L> getCoordinate(final Dimension<L> dimension) {
+		return (Coordinate<L>) Collections2.filter(coords, new Predicate<Coordinate<?>>() { // TODO introduce map dimension->coord
 			@Override
 			public boolean apply(Coordinate<?> input) {
 				return input.getDimension().equals(dimension);
@@ -86,5 +87,13 @@ public class CellAddress {
 		result.append(Joiner.on("|").join(coords));
 		result.append(")");
 		return result.toString();
+	}
+
+	public DimensionsList getDimensions() { // TODO cache
+		DimensionsList list = new DimensionsList();
+		for (Coordinate<?> coord : coords) {
+			list.add(coord.getDimension());
+		}
+		return list;
 	}
 }
