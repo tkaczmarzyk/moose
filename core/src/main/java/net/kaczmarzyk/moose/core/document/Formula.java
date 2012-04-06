@@ -31,6 +31,9 @@ public class Formula implements DataObject {
 
 	@Override
 	public DataObject getProperty(Path path) {
+		if (path.isInPlace()) { // FIXME refactor (the same if in scalar)
+			return this;
+		}
 		return cachedResult.getProperty(path);
 	};
 	

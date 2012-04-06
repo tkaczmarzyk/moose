@@ -4,10 +4,10 @@ import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 
 
-public abstract class MockedTestBase {
+public abstract class MockedTestBase extends UnitTestBase {
 
 	@Before
-	public void initMocks() {
+	public void initAnnotatedMocks() {
 		MockitoAnnotations.initMocks(this);
 	}
 }

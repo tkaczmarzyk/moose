@@ -57,4 +57,9 @@ public class Coordinate<T> {
 	public Dimension<T> getDimension() {
 		return dimension;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("Coord[%s]%s", dimension, absolute ? "[" + shift +"]" : shift);
+	}
 }

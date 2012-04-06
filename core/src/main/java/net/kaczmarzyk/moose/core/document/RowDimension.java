@@ -21,4 +21,8 @@ public class RowDimension implements Dimension<Integer> {
 		return shift;
 	}
 
+	@Override
+	public String toString() {
+		return "Row";
+	}
 }

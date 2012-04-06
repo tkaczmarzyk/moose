@@ -62,12 +62,6 @@ public class Path implements Copyable<Path> {
 		return new Path(propertyChain.subList(1, propertyChain.size()));
 	}
 
-	public Path extended(String propName) {
-		Path copy = copy();
-		copy.propertyChain.add(propName);
-		return copy;
-	}
-
 	@Override
 	public Path copy() {
 		return new Path(new ArrayList<>(propertyChain));
@@ -78,9 +72,13 @@ public class Path implements Copyable<Path> {
 	}
 
 	public Path with(String... properties) {
-		ArrayList<String> extendedPath = new ArrayList<>(propertyChain);
-		extendedPath.addAll(Arrays.asList(properties));
-		return new Path(extendedPath);
+		Path copy = copy();
+		copy.propertyChain.addAll(Arrays.asList(properties));
+		return copy;
 	}
 
+	@Override
+	public String toString() {
+		return "Path" + propertyChain.toString();
+	}
 }

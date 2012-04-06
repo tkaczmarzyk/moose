@@ -1,10 +1,7 @@
 package net.kaczmarzyk.moose.core.document;
 
-import net.kaczmarzyk.moose.core.common.Copyable;
 
-
-
-public class ObjectAddress implements Copyable<ObjectAddress> {
+public class ObjectAddress {
 
 	private CellAddress cellAddr;
 	private Path path;
@@ -24,7 +21,7 @@ public class ObjectAddress implements Copyable<ObjectAddress> {
 	}
 
 	public DataObject getObject() {
-		return cellAddr.getCell().getValue();
+		return cellAddr.getCell().getValue().getProperty(path);
 	}
 
 	public void put(DataObject obj) {
@@ -33,13 +30,22 @@ public class ObjectAddress implements Copyable<ObjectAddress> {
 
 	public ObjectAddress withExtendedPath(String propName) {
 		ObjectAddress copy = copy();
-		copy.path = copy.path.extended(propName);
+		copy.path = copy.path.with(propName);
 		return copy;
 	}
 
-	@Override
-	public ObjectAddress copy() {
+	private ObjectAddress copy() {
 		return new ObjectAddress(cellAddr, path);
 	}
 
+	public ObjectAddress absolute(CellAddress referenceCellAddr) {
+		ObjectAddress copy = copy();
+		copy.cellAddr = cellAddr.absolute(referenceCellAddr);
+		return copy;
+	}
+	
+	@Override
+	public String toString() {
+		return cellAddr + "#" + path;
+	}
 }

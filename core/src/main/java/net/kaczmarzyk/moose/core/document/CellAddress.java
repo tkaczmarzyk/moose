@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -54,7 +55,7 @@ public class CellAddress {
 		}
 	}
 
-	public CellAddress absolute(final CellAddress reference) {
+	public CellAddress absolute(final CellAddress reference) { // TODO optimization ? (detecting absolute addresses)
 		return new CellAddress(sheet, Lists.transform(coords, new Function<Coordinate<?>, Coordinate<?>>() {
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
@@ -76,5 +77,14 @@ public class CellAddress {
 
 	public Cell getCell() { // TODO cache
 		return sheet.getCell(this); // FIXME arg?
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder(sheet.getName());
+		result.append("(");
+		result.append(Joiner.on("|").join(coords));
+		result.append(")");
+		return result.toString();
 	}
 }

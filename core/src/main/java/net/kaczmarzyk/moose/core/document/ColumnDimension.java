@@ -39,4 +39,8 @@ public class ColumnDimension implements Dimension<String> {
 		return columnNames.get(shift);
 	}
 
+	@Override
+	public String toString() {
+		return "Col";
+	}
 }
