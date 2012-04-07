@@ -40,19 +40,34 @@ formula
 // EXPRESSIONS:
 
 term
-  : 
+  : INT
   | '(' expression ')'
   | objRef
   ;
 
+negation
+  : ('~')* term
+  ;
+
+unary
+  : ('+' | '-')* negation
+  ;
+
 mult
-  : term ('*' term)*
+  : unary (('*' | '/') unary)*
   ;
   
-expression
+add
   : mult (('+' | '-') mult)*
   ;
 
+relation
+  : add (('=' | '<>' | '<' | '<=' | '>' | '>=') add)*
+  ;
+  
+expression
+  : relation (('&&' | '||') relation)*
+  ;
 
 
 // OBJECT REFERENCE:
@@ -118,7 +133,7 @@ sheet
   ;
   
 name
-  : (~('!' | '#' | '(' | ')' | '[' | ']' | '*' | '+' | '/' | '-')+)
+  : (~('!' | '#' | '(' | ')' | '[' | ']' | '*' | '+' | '/' | '-' | '~' | '>' | '=' | '<' | '|' | '&')+)
   ;
 
 path returns [Path result]
