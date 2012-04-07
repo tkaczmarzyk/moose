@@ -10,6 +10,7 @@
 		<version>0.1.0.BUILD-SNAPSHOT</version>
     </parent>
     <properties>
+    	<antlr.version>3.4</antlr.version>
     </properties>
 
 	<dependencies>
@@ -64,9 +65,27 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>1.0.0.M5</version>
         </dependency>
+        
+        <dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>${antlr.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr3-maven-plugin</artifactId>
+				<version>${antlr.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			 <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
