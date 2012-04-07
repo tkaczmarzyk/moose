@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.kaczmarzyk.moose.core.common.Copyable;
 
-
-public class Path implements Copyable<Path> {
+public class Path {
 	
 	public static final Path IN_PLACE = new Path();
 	
@@ -62,8 +60,7 @@ public class Path implements Copyable<Path> {
 		return new Path(propertyChain.subList(1, propertyChain.size()));
 	}
 
-	@Override
-	public Path copy() {
+	private Path copy() {
 		return new Path(new ArrayList<>(propertyChain));
 	}
 
@@ -79,7 +76,7 @@ public class Path implements Copyable<Path> {
 
 	@Override
 	public String toString() {
-		return "Path" + propertyChain.toString();
+		return "Path" + propertyChain;
 	}
 	
 	@Override

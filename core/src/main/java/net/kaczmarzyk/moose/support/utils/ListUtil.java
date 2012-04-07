@@ -9,7 +9,7 @@ public final class ListUtil {
 	private ListUtil() {
 	}
 
-	public static <T> List<List<T>> cartesianProduct(List<List<T>> lists) {
+	public static <T> List<List<T>> cartesianProduct(List<List<T>> lists) { //TODO iterator version which does not preload entire result into memory
 		List<List<T>> resultLists = new ArrayList<>();
 		if (lists.size() == 0) {
 			resultLists.add(new ArrayList<T>());
