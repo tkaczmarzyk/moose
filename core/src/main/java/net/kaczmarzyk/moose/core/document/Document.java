@@ -1,6 +1,7 @@
 package net.kaczmarzyk.moose.core.document;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -39,12 +40,16 @@ public class Document { // TODO add currentSheet
 	}
 
 	public Sheet getSheet(final String sheetName) {
-		return Collections2.filter(sheets, new Predicate<Sheet>() {
+		Collection<Sheet> searchResult = Collections2.filter(sheets, new Predicate<Sheet>() {
 			@Override
 			public boolean apply(Sheet input) {
 				return input.getName().equals(sheetName);
 			}
-		}).iterator().next();
+		});
+		if (searchResult.isEmpty()) {
+			throw new IllegalArgumentException("Sheet does not exist in doc: " + sheetName);
+		}
+		return searchResult.iterator().next();
 	}
 
 }

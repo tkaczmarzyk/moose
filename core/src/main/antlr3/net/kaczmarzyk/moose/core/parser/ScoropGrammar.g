@@ -15,6 +15,8 @@ options {
   import net.kaczmarzyk.moose.core.document.Document;
   import net.kaczmarzyk.moose.core.document.Coordinate;
   
+  import net.kaczmarzyk.moose.core.expression.ObjectReference;
+  
   import java.util.List;
   import java.util.ArrayList;
 }
@@ -29,6 +31,39 @@ options {
   private Dimension dim_;
 }
 
+formula
+  :
+    '=' expression EOF
+  ;
+
+
+// EXPRESSIONS:
+
+term
+  : 
+  | '(' expression ')'
+  | objRef
+  ;
+
+mult
+  : term ('*' term)*
+  ;
+  
+expression
+  : mult (('+' | '-') mult)*
+  ;
+
+
+
+// OBJECT REFERENCE:
+
+objRef returns [ObjectReference ref]
+  :
+    o=objAddr
+    {
+      ref = new ObjectReference(o);
+    }
+  ;
 
 objAddr returns [ObjectAddress result]
   :
@@ -40,7 +75,7 @@ objAddr returns [ObjectAddress result]
 
 coord returns [Coordinate result]
   :
-    dim  shift=INT
+    dim shift=INT
     {
       result = Coordinate.rel(dim_, Integer.parseInt(shift.getText()));
     }
@@ -76,16 +111,14 @@ coords returns [List<Coordinate<?>> coords]
 
 sheet
   :
-    name
+    name '!' // TODO allow to use some (all?) of them (sheet in addres doesn't have to work for fancy names though)
     {
       sheet_ = doc_.getSheet($name.text); // not thread safe!
     }
-    '!'
   ;
-
+  
 name
-  :
-    (.)+
+  : (~('!' | '#' | '(' | ')' | '[' | ']' | '*' | '+' | '/' | '-')+)
   ;
 
 path returns [Path result]
@@ -103,6 +136,8 @@ property
     CHAR (CHAR|INT)+
   ;
 
+
+FORM: '=';
 R: 'R';
 C: 'C';
 INT: '0'..'9'+;
