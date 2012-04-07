@@ -29,7 +29,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 	private Recalculator recalculator;
 	
 	private Document doc = new Document("test doc");
-	private Sheet sheet = doc.getSheet("Sheet 1");
+	private Sheet sheet = doc.getSheet("Sheet1");
 
 	private CellAddress a1;
 

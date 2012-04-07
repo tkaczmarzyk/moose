@@ -21,7 +21,7 @@ public class Sheet {
 		this.dimensions.add(new ColumnDimension());
 		this.dimensions.add(new RowDimension());
 		this.cells = new HashMap<>();
-		this.name = "Sheet " + (doc.getSheets().size() + 1);
+		this.name = "Sheet" + (doc.getSheets().size() + 1);
 		this.doc = doc;
 	}
 	
@@ -82,5 +82,10 @@ public class Sheet {
 	@SuppressWarnings("unchecked")
 	public Dimension<Integer> rows() {
 		return (Dimension<Integer>) dimensions.get(1);
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }

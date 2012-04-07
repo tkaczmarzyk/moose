@@ -53,17 +53,17 @@ public class DocumentAcceptanceTest extends SpringTestBase {
 	@Test
 	public void shouldSupportExplicitReferenceToObjectFromAnotherSheet() {
 		docOp.setDataProcessor(new ToStringDataProcessor());
-		docOp.assign("Sheet 1!C[0]R[0]", "x:2,y:3");
-		docOp.assign("Sheet 2!C[0]R[1]", "=Sheet 1!C[0]R[0]");
+		docOp.assign("Sheet1!C[0]R[0]", "x:2,y:3");
+		docOp.assign("Sheet2!C[0]R[1]", "=Sheet1!C[0]R[0]");
 		
-		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet 1!C[0]R[0]"));
-		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet 2!C[0]R[1]"));
+		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet1!C[0]R[0]"));
+		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet2!C[0]R[1]"));
 	}
 	
 	@Test
 	public void shouldUseDefaultSheetIfNotProvidedInAddress() {
 		docOp.assign("C[0]R[0]", "33t");
-		assertEquals("33t", docOp.getProcessedValue("Sheet 1!C[0]R[0]"));
+		assertEquals("33t", docOp.getProcessedValue("Sheet1!C[0]R[0]"));
 	}
 	
 	@Test

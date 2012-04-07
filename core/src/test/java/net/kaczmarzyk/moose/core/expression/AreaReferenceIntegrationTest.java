@@ -21,7 +21,7 @@ import org.junit.experimental.categories.Category;
 public class AreaReferenceIntegrationTest {
 
 	private Document doc = new Document("test doc");
-	private Sheet sheet = doc.getSheet("Sheet 1");
+	private Sheet sheet = doc.getSheet("Sheet1");
 	
 	private CellAddress a1 = new CellAddress(sheet, Coordinate.abs(sheet.cols(), 0), Coordinate.abs(sheet.rows(), 0));
 	private ObjectAddress a1_x = new ObjectAddress(a1, Path.of("x"));
