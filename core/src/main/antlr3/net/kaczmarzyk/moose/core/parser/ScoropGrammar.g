@@ -34,7 +34,7 @@ objAddr returns [ObjectAddress result]
   :
     s=sheet? c=coords p=path?
     {
-      result = new ObjectAddress(new CellAddress(sheet_, c), p);
+      result = new ObjectAddress(new CellAddress(sheet_, c), p != null ? p : Path.IN_PLACE);
     }
   ;
 

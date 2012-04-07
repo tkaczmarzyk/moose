@@ -44,4 +44,13 @@ public class ColumnDimension implements Dimension<String> { // TODO proper impl
 		return "Col";
 	}
 
+	@Override
+	public int hashCode() {
+		return ColumnDimension.class.hashCode();
+	};
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj.getClass() == ColumnDimension.class; // FIXME decide if such equality is ok, refactor dimensions access TODO ? relative dimensions (dimension index) while referncing?
+	}
 }

@@ -27,4 +27,13 @@ public class RowDimension implements Dimension<Integer> {
 		return "Row";
 	}
 	
+	@Override
+	public int hashCode() {
+		return RowDimension.class.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj.getClass() == RowDimension.class;
+	}
 }

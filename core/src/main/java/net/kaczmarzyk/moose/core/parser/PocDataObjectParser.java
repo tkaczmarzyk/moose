@@ -20,7 +20,10 @@ import org.springframework.stereotype.Component;
 public class PocDataObjectParser implements DataObjectParser {
 
 	@Autowired
-	private AddressParser coordsParser;
+	private ScoropAddressParser scoropParser;
+	
+	@Autowired
+	private PocAddressParser coordsParser;
 	
 	@Autowired @Qualifier("abs")
 	private Function abs;

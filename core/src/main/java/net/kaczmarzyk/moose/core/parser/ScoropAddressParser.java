@@ -9,6 +9,7 @@ import org.antlr.runtime.RecognitionException;
 import org.springframework.stereotype.Component;
 
 
+@Component
 public class ScoropAddressParser implements AddressParser {
 
 	@Override
