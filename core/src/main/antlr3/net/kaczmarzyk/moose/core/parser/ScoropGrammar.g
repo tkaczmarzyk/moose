@@ -128,13 +128,14 @@ expression returns [Expression result] //add
 
 ref returns [Expression result]
   :
-    addr1=objAddr (':' addr2=objAddr)?
+    addr=objAddr
     {
-      if (addr2 == null) {
-        result = new ObjectReference(addr1);
-      } else {
-        result = new AreaReference(addr1, addr2);
-      }
+      result = new ObjectReference(addr);
+    }
+  |
+    s=sheet? c=coords ':' addr2=objAddr
+    {
+      result = new AreaReference(new ObjectAddress(new CellAddress(sheet_, c), addr2.getPath()), addr2);
     }
   ;
 

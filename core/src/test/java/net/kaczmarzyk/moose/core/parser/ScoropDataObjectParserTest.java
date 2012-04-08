@@ -39,6 +39,18 @@ public class ScoropDataObjectParserTest {
 		parser.funRegistry = new SpringFunctionRegistry(Arrays.asList(new Add(), new Abs()));
 	}
 	
+	
+	@Test
+	public void parse_shouldRecognizeAreaReferenceWithPath() {
+		Formula parsed = (Formula) parser.parse(sheet1, "=C0R0:C2R2#bubu.foo");
+		
+		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
+		assertEquals(AreaReference.class, expression.getClass());
+		
+		assertEquals(relObjAddr(sheet1, Path.of("bubu", "foo"), 0, 0), ReflectionUtil.get(expression, "leftUpAddress"));
+		assertEquals(relObjAddr(sheet1, Path.of("bubu", "foo"), 2, 2), ReflectionUtil.get(expression, "rightDownAddress"));
+	}
+	
 	@Test
 	public void parse_shouldRecognizeAreaReference() {
 		Formula parsed = (Formula) parser.parse(sheet1, "=C0R0:C2R2");
