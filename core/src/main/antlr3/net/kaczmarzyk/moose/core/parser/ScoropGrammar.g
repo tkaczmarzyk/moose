@@ -99,12 +99,16 @@ mult returns [Expression result]
   ;
   
 expression returns [Expression result] //add
-  : m1=mult (op=('+' | '-') m2=mult)?
+  :
     {
-      if (m2 != null) {
-        result = new FunctionCall(functions_.get($op.text == "+" ? "add" : "sub"), m1, m2);
+      List<Expression> exprs = new ArrayList<Expression>();
+    }
+    m1=mult {exprs.add(m1);} (op=('+' | '-') m2=mult {exprs.add($op.text == "+" ? m2 : new FunctionCall(functions_.get("-"), m2));})*
+    {
+      if (exprs.size() > 1) {
+        result = new FunctionCall(functions_.get("+"), exprs.toArray(new Expression[exprs.size()]));
       } else {
-        result = m1;
+        result = exprs.get(0);
       }
     }
   ;
