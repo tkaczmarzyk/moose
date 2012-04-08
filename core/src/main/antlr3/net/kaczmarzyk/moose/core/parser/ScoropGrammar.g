@@ -95,10 +95,10 @@ mult returns [Expression result]
   ;
   
 expression returns [Expression result] //add
-  : m1=mult (('+' | '-') m2=mult)?
+  : m1=mult (op=('+' | '-') m2=mult)?
     {
       if (m2 != null) {
-        result = new FunctionCall(functions_.get("add"), m1, m2);
+        result = new FunctionCall(functions_.get($op.text == "+" ? "add" : "sub"), m1, m2);
       } else {
         result = m1;
       }
