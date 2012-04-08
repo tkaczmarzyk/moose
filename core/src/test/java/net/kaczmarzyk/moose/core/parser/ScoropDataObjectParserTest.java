@@ -14,7 +14,10 @@ import net.kaczmarzyk.moose.core.expression.AreaReference;
 import net.kaczmarzyk.moose.core.expression.Expression;
 import net.kaczmarzyk.moose.core.function.Abs;
 import net.kaczmarzyk.moose.core.function.Add;
+import net.kaczmarzyk.moose.core.function.Neg;
 import net.kaczmarzyk.moose.core.function.SpringFunctionRegistry;
+import net.kaczmarzyk.moose.core.function.Sum;
+import net.kaczmarzyk.moose.core.processor.MapDataProcessor;
 import net.kaczmarzyk.moose.support.utils.ReflectionUtil;
 
 import org.junit.Before;
@@ -36,12 +39,33 @@ public class ScoropDataObjectParserTest {
 	
 	@Before
 	public void init() {
-		parser.funRegistry = new SpringFunctionRegistry(Arrays.asList(new Add(), new Abs()));
+		parser.funRegistry = new SpringFunctionRegistry(Arrays.asList(new Add(), new Abs(), new Sum(), new Neg()));
 	}
 	
 	
+//	@Test
+//	public void parse_shouldRecognizeFunctionCallWithAConstantArg() {
+//		Formula parsed = (Formula) parser.parse(sheet1, "=abs(-2.0)");
+//	}
+	
 	@Test
-	public void parse_shouldRecognizeAreaReferenceWithPath() {
+	public void parse_shouldRecognizeNegativeDoubleConstant() {
+		Formula parsed = (Formula) parser.parse(sheet1, "=-2.0");
+		parsed.refresh(null);
+		
+		assertEquals(-2.0, parsed.accept(new MapDataProcessor()));
+	}
+	
+	@Test
+	public void parse_shouldRecognizeDoubleConstant() {
+		Formula parsed = (Formula) parser.parse(sheet1, "=2.0");
+		parsed.refresh(null);
+		
+		assertEquals(2.0, parsed.accept(new MapDataProcessor()));
+	}
+	
+	@Test
+	public void parse_shouldRecognizeAreaReferenceWithPath() { // TODO should be allowed to have formula with just area ref?
 		Formula parsed = (Formula) parser.parse(sheet1, "=C0R0:C2R2#bubu.foo");
 		
 		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");

@@ -79,17 +79,24 @@ args returns [Expression[\] result]
 //negation
 //  : ('~')* term
 //  ;
-//
-//unary
-//  : ('+' | '-')* negation
-//  ;
+
+unary returns [Expression result]
+  : op=('+' | '-')? t=term // TODO ? suport multiple - or +
+    {
+      if (op == null || $op.text.equals("+")) {
+        result = t;
+      } else {
+        result = new FunctionCall(functions_.get("neg"), t);
+      }
+    }
+  ;
 
 mult returns [Expression result]
   :
     {
       List<Expression> exprs = new ArrayList<Expression>();
     }
-    t1=term {exprs.add(t1);} (('*' t2=term {exprs.add(t2);}) | ('/' t3=term {exprs.add(new FunctionCall(functions_.get("inv"), t3));}))*
+    t1=unary {exprs.add(t1);} (('*' t2=unary {exprs.add(t2);}) | ('/' t3=unary {exprs.add(new FunctionCall(functions_.get("inv"), t3));}))*
     {
       if (exprs.size() > 1) {
         result = new FunctionCall(functions_.get("mul"), exprs.toArray(new Expression[exprs.size()]));
@@ -104,7 +111,7 @@ expression returns [Expression result] //add
     {
       List<Expression> exprs = new ArrayList<Expression>();
     }
-    m1=mult {exprs.add(m1);} (op=('+' | '-') m2=mult {exprs.add($op.text == "+" ? m2 : new FunctionCall(functions_.get("-"), m2));})*
+    m1=mult {exprs.add(m1);} (op=('+' | '-') m2=mult {exprs.add($op.text.equals("+") ? m2 : new FunctionCall(functions_.get("-"), m2));})*
     {
       if (exprs.size() > 1) {
         result = new FunctionCall(functions_.get("+"), exprs.toArray(new Expression[exprs.size()]));
@@ -211,15 +218,20 @@ property
   ;
 
 constant returns [Constant result]
-  : d=((INT '.' INT) | INT)
+  : REAL
     {
-      result = new Constant(new Scalar<Double>(Double.valueOf($d.text)));
+      result = new Constant(new Scalar<Double>(Double.valueOf($REAL.text)));
+    }
+  | INT
+    {
+      result = new Constant(new Scalar<Integer>(Integer.valueOf($INT.text))); 
     }
   ;
 
 FORM: '=';
 R: 'R';
 C: 'C';
+REAL: INT '.' INT;
 INT: '0'..'9'+;
 CHAR: 'a'..'z' | 'A'..'Z';
 
