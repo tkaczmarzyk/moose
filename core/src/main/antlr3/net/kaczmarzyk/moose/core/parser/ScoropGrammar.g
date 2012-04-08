@@ -20,6 +20,7 @@ options {
   import net.kaczmarzyk.moose.core.expression.Expression;
   import net.kaczmarzyk.moose.core.expression.ObjectReference;
   import net.kaczmarzyk.moose.core.expression.AreaReference;
+  import net.kaczmarzyk.moose.core.expression.Constant;
   
   import net.kaczmarzyk.moose.core.function.FunctionRegistry;
   import net.kaczmarzyk.moose.core.function.Function;
@@ -52,9 +53,9 @@ term returns [Expression result]
   : 
   | '(' e=expression ')' {result = e;}
   | r=ref {result = r;}
-  | call=funCall {result = call;}
+  | fc=funCall {result = fc;}
+  | c=constant { result = c;}
   ;
-
 
 funCall returns [FunctionCall result]
   : f=fun '(' a=args ')'
@@ -199,7 +200,12 @@ property
     CHAR (CHAR|INT)+
   ;
 
-
+constant returns [Constant result]
+  : d=(INT '.' INT)
+    {
+      result = new Constant(new Scalar<Double>(Double.valueOf($d.text)));
+    }
+  ;
 
 FORM: '=';
 R: 'R';

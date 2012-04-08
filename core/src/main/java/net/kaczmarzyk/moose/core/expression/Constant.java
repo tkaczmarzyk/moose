@@ -9,6 +9,10 @@ public class Constant implements Expression {
 	private DataObject value;
 	
 	
+	public Constant(DataObject value) {
+		this.value = value;
+	}
+	
 	@Override
 	public DataObject evaluate(CellAddress coords) {
 		return value;
