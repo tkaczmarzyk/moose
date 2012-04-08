@@ -57,4 +57,19 @@ public class Scalar<T> implements DataObject {
 	@Override
 	public void placedInCell(CellAddress address) {
 	}
+	
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Scalar) {
+			Scalar<?> that = (Scalar<?>) obj;
+			return this.value.equals(that.value);
+		} else {
+			return false;
+		}
+	}
 }

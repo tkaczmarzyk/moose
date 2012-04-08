@@ -72,7 +72,7 @@ fun returns [Function result]
 args returns [Expression[\] result]
   :
     { List<Expression> temp = new ArrayList<Expression>();} //TODO linked list
-    e=expression {temp.add(e);} (',' e2=expression {temp.add(e2);} )*
+    e=expression {temp.add(e);} (',' ' '* e2=expression {temp.add(e2);} )* // TODO suppress WS globally (but allow in sheet name)
     {result = temp.toArray(new Expression[temp.size()]);}
   ;
 

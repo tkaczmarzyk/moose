@@ -1,6 +1,7 @@
 package net.kaczmarzyk.moose.core.parser;
 
 import static net.kaczmarzyk.moose.core.utils.DataObjectUtil.relObjAddr;
+import static net.kaczmarzyk.moose.core.utils.ExpressionUtil.constant;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import net.kaczmarzyk.moose.core.expression.Expression;
 import net.kaczmarzyk.moose.core.expression.FunctionCall;
 import net.kaczmarzyk.moose.core.function.Abs;
 import net.kaczmarzyk.moose.core.function.Add;
+import net.kaczmarzyk.moose.core.function.Function;
 import net.kaczmarzyk.moose.core.function.Neg;
 import net.kaczmarzyk.moose.core.function.SpringFunctionRegistry;
 import net.kaczmarzyk.moose.core.function.Sum;
@@ -43,6 +45,17 @@ public class ScoropDataObjectParserTest {
 		parser.funRegistry = new SpringFunctionRegistry(Arrays.asList(new Add(), new Abs(), new Sum(), new Neg()));
 	}
 	
+	
+	@Test
+	public void parse_shouldRecognizeFunctionCallWithThreeArguments() {
+		Formula parsed = (Formula) parser.parse(sheet1, "=sum(2.0, 3.0, 5.0)");
+		
+		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
+		assertEquals(FunctionCall.class, expression.getClass());
+		Function function = (Function) ReflectionUtil.get(expression, "function");
+		assertEquals(parser.funRegistry.get("sum"), function);
+		assertEquals(Arrays.asList(constant(2.0), constant(3.0), constant(5.0)), ReflectionUtil.get(expression, "args"));
+	}
 	
 	@Test
 	public void parse_shouldRecognizeFunctionCallWithAConstantArg() {

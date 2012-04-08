@@ -18,4 +18,18 @@ public class Constant implements Expression {
 		return value;
 	}
 
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Constant) {
+			Constant that = (Constant) obj;
+			return this.value.equals(that.value);
+		} else {
+			return false;
+		}
+	}
 }
