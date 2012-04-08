@@ -12,6 +12,7 @@ import net.kaczmarzyk.moose.core.document.Path;
 import net.kaczmarzyk.moose.core.document.Sheet;
 import net.kaczmarzyk.moose.core.expression.AreaReference;
 import net.kaczmarzyk.moose.core.expression.Expression;
+import net.kaczmarzyk.moose.core.expression.FunctionCall;
 import net.kaczmarzyk.moose.core.function.Abs;
 import net.kaczmarzyk.moose.core.function.Add;
 import net.kaczmarzyk.moose.core.function.Neg;
@@ -43,10 +44,14 @@ public class ScoropDataObjectParserTest {
 	}
 	
 	
-//	@Test
-//	public void parse_shouldRecognizeFunctionCallWithAConstantArg() {
-//		Formula parsed = (Formula) parser.parse(sheet1, "=abs(-2.0)");
-//	}
+	@Test
+	public void parse_shouldRecognizeFunctionCallWithAConstantArg() {
+		Formula parsed = (Formula) parser.parse(sheet1, "=abs(-2.0)");
+		
+		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
+		assertEquals(FunctionCall.class, expression.getClass());
+		assertEquals(parser.funRegistry.get("abs"), ReflectionUtil.get(expression, "function"));
+	}
 	
 	@Test
 	public void parse_shouldRecognizeNegativeDoubleConstant() {

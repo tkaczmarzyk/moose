@@ -66,7 +66,7 @@ funCall returns [FunctionCall result]
   ;
 
 fun returns [Function result]
-  : fname=(CHAR+) {result = functions_.get($fname.text);} // TODO functions with numbers in name?
+  : fname=ident {result = functions_.get($fname.text);} // TODO functions with numbers in name?
   ;
 
 args returns [Expression[\] result]
@@ -206,15 +206,17 @@ path returns [Path result]
   : {
       List<String> props = new ArrayList<>();
     }
-    '#' firstProp=property {props.add($firstProp.text);} ('.' prop=property {props.add($prop.text);})*
+    '#' firstProp=ident {props.add($firstProp.text);} ('.' prop=ident {props.add($prop.text);})*
     {
       result = new Path(props);
     }
   ;
 
-property
+
+
+ident
   :
-    CHAR (CHAR|INT)+
+    STRING (INT | STRING)*
   ;
 
 constant returns [Constant result]
@@ -233,6 +235,5 @@ R: 'R';
 C: 'C';
 REAL: INT '.' INT;
 INT: '0'..'9'+;
-CHAR: 'a'..'z' | 'A'..'Z';
-
+STRING: ('a'..'z' | 'A'..'Z')+;
 WS: '\t'+ {$channel = HIDDEN;};
