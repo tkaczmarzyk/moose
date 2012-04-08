@@ -31,7 +31,7 @@ public class DocumentAcceptanceTest extends SpringTestBase {
 	
 	@Test
 	public void shouldBeAbleToReferenceAnExplicitDataObject() {
-		docOp.assign("C[0]R[0]", "tk"); // TODO converters (i.e. this example should create integer data instead of string)
+		docOp.assign("C[0]R[0]", "tk");
 		docOp.assign("C[0]R[1]", "=C[0]R[0]");
 		
 		assertEquals("tk", docOp.getProcessedValue("C[0]R[1]"));

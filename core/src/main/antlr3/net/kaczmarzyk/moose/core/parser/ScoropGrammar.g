@@ -10,12 +10,19 @@ options {
   import net.kaczmarzyk.moose.core.document.CellAddress;
   import net.kaczmarzyk.moose.core.document.Dimension;
   import net.kaczmarzyk.moose.core.document.ObjectAddress;
+  import net.kaczmarzyk.moose.core.document.Scalar;
   import net.kaczmarzyk.moose.core.document.Path;
   import net.kaczmarzyk.moose.core.document.Sheet;
   import net.kaczmarzyk.moose.core.document.Document;
   import net.kaczmarzyk.moose.core.document.Coordinate;
   
+  import net.kaczmarzyk.moose.core.expression.FunctionCall;
+  import net.kaczmarzyk.moose.core.expression.Expression;
   import net.kaczmarzyk.moose.core.expression.ObjectReference;
+  import net.kaczmarzyk.moose.core.expression.AreaReference;
+  
+  import net.kaczmarzyk.moose.core.function.FunctionRegistry;
+  import net.kaczmarzyk.moose.core.function.Function;
   
   import java.util.List;
   import java.util.ArrayList;
@@ -28,8 +35,10 @@ options {
 @members {
   Sheet sheet_;
   Document doc_;
+  FunctionRegistry functions_;
   private Dimension dim_;
 }
+
 
 formula
   :
@@ -39,44 +48,83 @@ formula
 
 // EXPRESSIONS:
 
-term
-  : INT
-  | '(' expression ')'
-  | objRef
-  ;
-
-negation
-  : ('~')* term
-  ;
-
-unary
-  : ('+' | '-')* negation
-  ;
-
-mult
-  : unary (('*' | '/') unary)*
-  ;
-  
-add
-  : mult (('+' | '-') mult)*
-  ;
-
-relation
-  : add (('=' | '<>' | '<' | '<=' | '>' | '>=') add)*
-  ;
-  
-expression
-  : relation (('&&' | '||') relation)*
+term returns [Expression result]
+  : 
+  | '(' e=expression ')' {result = e;}
+  | r=ref {result = r;}
+  | call=funCall {result = call;}
   ;
 
 
-// OBJECT REFERENCE:
-
-objRef returns [ObjectReference ref]
-  :
-    o=objAddr
+funCall returns [FunctionCall result]
+  : f=fun '(' a=args ')'
     {
-      ref = new ObjectReference(o);
+      result = new FunctionCall(f, a);
+    }
+  ;
+
+fun returns [Function result]
+  : fname=(CHAR+) {result = functions_.get($fname.text);} // TODO functions with numbers in name?
+  ;
+
+args returns [Expression[\] result]
+  :
+    { List<Expression> temp = new ArrayList<Expression>();}
+    e=expression {temp.add(e);} (',' e2=expression {temp.add(e2);} )*
+    {result = temp.toArray(new Expression[temp.size()]);}
+  ;
+
+//negation
+//  : ('~')* term
+//  ;
+//
+//unary
+//  : ('+' | '-')* negation
+//  ;
+
+mult returns [Expression result]
+  : t1=term (('*' | '/') t2=term)?
+    {
+      if (t2 != null) {
+        result = new FunctionCall(functions_.get("add"), t1, t2);
+      } else {
+        result = t1;
+      }
+    }
+  ;
+  
+expression returns [Expression result] //add
+  : m1=mult (('+' | '-') m2=mult)?
+    {
+      if (m2 != null) {
+        result = new FunctionCall(functions_.get("add"), m1, m2);
+      } else {
+        result = m1;
+      }
+    }
+  ;
+
+//relation
+//  : add (('=' | '<>' | '<' | '<=' | '>' | '>=') add)*
+//  ;
+//  
+//expression
+//  : relation (('&&' | '||') relation)*
+//  ;
+
+
+
+// AREA or OBJECT REFERENCE:
+
+ref returns [Expression result]
+  :
+    addr1=objAddr (':' addr2=objAddr)?
+    {
+      if (addr2 == null) {
+        result = new ObjectReference(addr1);
+      } else {
+        result = new AreaReference(addr1, addr2);
+      }
     }
   ;
 
@@ -133,7 +181,7 @@ sheet
   ;
   
 name
-  : (~('!' | '#' | '(' | ')' | '[' | ']' | '*' | '+' | '/' | '-' | '~' | '>' | '=' | '<' | '|' | '&')+)
+  : (~(',' | '!' | '#' | '(' | ')' | '[' | ']' | '*' | '+' | '/' | '-' | '~' | '>' | '=' | '<' | '|' | '&' | ':')+)
   ;
 
 path returns [Path result]
@@ -150,6 +198,7 @@ property
   :
     CHAR (CHAR|INT)+
   ;
+
 
 
 FORM: '=';

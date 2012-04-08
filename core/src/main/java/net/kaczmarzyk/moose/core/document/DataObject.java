@@ -2,10 +2,11 @@ package net.kaczmarzyk.moose.core.document;
 
 import java.util.List;
 
+import net.kaczmarzyk.moose.core.common.Copyable;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
 
-public interface DataObject {
+public interface DataObject extends Copyable<DataObject> {
 
 	List<String> getPropertyNames();
 	
@@ -13,7 +14,7 @@ public interface DataObject {
 	
 	<T> T accept(DataProcessor<T> visitor);
 	
-	void refresh(CellAddress addr); // FIXME i don't like the parameters// FIXME cell or obj address?
+	void refresh(CellAddress addr);
 
 	DataObject getProperty(Path path);
 
