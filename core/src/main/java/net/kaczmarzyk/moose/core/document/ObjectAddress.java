@@ -1,5 +1,7 @@
 package net.kaczmarzyk.moose.core.document;
 
+import com.google.common.base.Objects;
+
 
 public class ObjectAddress {
 
@@ -49,7 +51,24 @@ public class ObjectAddress {
 		return cellAddr + "#" + path;
 	}
 
-	public static ObjectAddress inPlace(CellAddress cellAddr) {
+	public static ObjectAddress inPlace(CellAddress cellAddr) { //TODO move to cellAddr as instance method
 		return new ObjectAddress(cellAddr, Path.IN_PLACE);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ObjectAddress) {
+			ObjectAddress that = (ObjectAddress) obj;
+			return Objects.equal(this.path, that.path) 
+					&& Objects.equal(this.cellAddr, that.cellAddr);
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(cellAddr, path);
 	}
 }

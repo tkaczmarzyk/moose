@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Configurable
 public class SimpleDocumentOperator<T> implements DocumentOperator {
 
-	@Autowired
+	@Autowired @Qualifier("pocDataObjectParser")
 	private DataObjectParser objectParser;
 	
 	@Autowired @Qualifier("scoropAddressParser")

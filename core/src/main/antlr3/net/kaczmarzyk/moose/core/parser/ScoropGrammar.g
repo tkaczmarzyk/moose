@@ -14,6 +14,7 @@ options {
   import net.kaczmarzyk.moose.core.document.Path;
   import net.kaczmarzyk.moose.core.document.Sheet;
   import net.kaczmarzyk.moose.core.document.Document;
+  import net.kaczmarzyk.moose.core.document.Formula;
   import net.kaczmarzyk.moose.core.document.Coordinate;
   
   import net.kaczmarzyk.moose.core.expression.FunctionCall;
@@ -41,9 +42,9 @@ options {
 }
 
 
-formula
+formula returns [Formula formula]
   :
-    '=' expression EOF
+    '=' e=expression EOF { formula = new Formula(e);}
   ;
 
 

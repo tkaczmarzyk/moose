@@ -3,6 +3,8 @@ package net.kaczmarzyk.moose.core.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Objects;
+
 public class Coordinate<T> {
 
 	private Dimension<T> dimension;
@@ -37,7 +39,10 @@ public class Coordinate<T> {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Coordinate) {
-			return shift == ((Coordinate<?>)obj).shift;
+			Coordinate<?> that = (Coordinate<?>) obj;
+			return this.shift == that.shift
+					&& this.absolute == that.absolute
+					&& Objects.equal(this.dimension, that.dimension);
 		}
 		else {
 			return false;
@@ -46,7 +51,7 @@ public class Coordinate<T> {
 	
 	@Override
 	public int hashCode() {
-		return shift;
+		return Objects.hashCode(shift, dimension, absolute);
 	}
 	
 	public static <K> Coordinate<K> rel(Dimension<K> dimension, int shift) {
@@ -69,7 +74,7 @@ public class Coordinate<T> {
 	public List<Coordinate<T>> upTo(Coordinate<T> endInclusive) {
 		List<Coordinate<T>> result = new ArrayList<>();
 		for (int i = shift; i <= endInclusive.shift; i++) {
-			result.add(new Coordinate<>(dimension, i));
+			result.add(new Coordinate<>(dimension, i, true)); // TODO verify it's ok to always return absolute here
 		}
 		return result;
 	}
