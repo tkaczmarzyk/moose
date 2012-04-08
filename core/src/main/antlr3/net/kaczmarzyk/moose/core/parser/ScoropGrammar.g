@@ -70,7 +70,7 @@ fun returns [Function result]
 
 args returns [Expression[\] result]
   :
-    { List<Expression> temp = new ArrayList<Expression>();}
+    { List<Expression> temp = new ArrayList<Expression>();} //TODO linked list
     e=expression {temp.add(e);} (',' e2=expression {temp.add(e2);} )*
     {result = temp.toArray(new Expression[temp.size()]);}
   ;
@@ -84,12 +84,16 @@ args returns [Expression[\] result]
 //  ;
 
 mult returns [Expression result]
-  : t1=term (('*' | '/') t2=term)?
+  :
     {
-      if (t2 != null) {
-        result = new FunctionCall(functions_.get("add"), t1, t2);
+      List<Expression> exprs = new ArrayList<Expression>();
+    }
+    t1=term {exprs.add(t1);} (('*' t2=term {exprs.add(t2);}) | ('/' t3=term {exprs.add(new FunctionCall(functions_.get("inv"), t3));}))*
+    {
+      if (exprs.size() > 1) {
+        result = new FunctionCall(functions_.get("mul"), exprs.toArray(new Expression[exprs.size()]));
       } else {
-        result = t1;
+        result = exprs.get(0);
       }
     }
   ;
@@ -201,7 +205,7 @@ property
   ;
 
 constant returns [Constant result]
-  : d=(INT '.' INT)
+  : d=((INT '.' INT) | INT)
     {
       result = new Constant(new Scalar<Double>(Double.valueOf($d.text)));
     }
