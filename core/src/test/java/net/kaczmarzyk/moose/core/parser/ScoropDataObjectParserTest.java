@@ -10,8 +10,10 @@ import net.kaczmarzyk.moose.core.document.Dimension;
 import net.kaczmarzyk.moose.core.document.Document;
 import net.kaczmarzyk.moose.core.document.Formula;
 import net.kaczmarzyk.moose.core.document.Path;
+import net.kaczmarzyk.moose.core.document.Scalar;
 import net.kaczmarzyk.moose.core.document.Sheet;
 import net.kaczmarzyk.moose.core.expression.AreaReference;
+import net.kaczmarzyk.moose.core.expression.Constant;
 import net.kaczmarzyk.moose.core.expression.Expression;
 import net.kaczmarzyk.moose.core.expression.FunctionCall;
 import net.kaczmarzyk.moose.core.function.Abs;
@@ -27,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class ScoropDataObjectParserTest {
+public class ScoropDataObjectParserTest { // TODO utils for repeated assertions
 
 	private Document doc = new Document("test doc");
 	private Sheet sheet1 = doc.getSheet("Sheet1");
@@ -45,6 +47,24 @@ public class ScoropDataObjectParserTest {
 		parser.funRegistry = new SpringFunctionRegistry(Arrays.asList(new Add(), new Abs(), new Sum(), new Neg()));
 	}
 	
+	
+	@Test
+	public void parse_shouldRecognizeEmptyString() {
+		Formula parsed = (Formula) parser.parse(sheet1, "=\"\"");
+		
+		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
+		assertEquals(Constant.class, expression.getClass());
+		assertEquals(new Scalar<>(""), ReflectionUtil.get(expression, "value"));
+	}
+	
+	@Test
+	public void parse_shouldRecognizeQuotedStringConstAndSkipQuotes() {
+		Formula parsed = (Formula) parser.parse(sheet1, "=\"ble hehe uuu\"");
+		
+		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
+		assertEquals(Constant.class, expression.getClass());
+		assertEquals(new Scalar<>("ble hehe uuu"), ReflectionUtil.get(expression, "value"));
+	}
 	
 	@Test
 	public void parse_shouldRecognizeFunctionCallWithThreeArguments() {
@@ -103,4 +123,5 @@ public class ScoropDataObjectParserTest {
 		assertEquals(relObjAddr(sheet1, Path.IN_PLACE, 0, 0), ReflectionUtil.get(expression, "leftUpAddress"));
 		assertEquals(relObjAddr(sheet1, Path.IN_PLACE, 2, 2), ReflectionUtil.get(expression, "rightDownAddress"));
 	}
+	
 }

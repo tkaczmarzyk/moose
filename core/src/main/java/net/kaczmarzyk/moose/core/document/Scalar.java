@@ -72,4 +72,9 @@ public class Scalar<T> implements DataObject {
 			return false;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Scalar[" + value + "]";
+	}
 }

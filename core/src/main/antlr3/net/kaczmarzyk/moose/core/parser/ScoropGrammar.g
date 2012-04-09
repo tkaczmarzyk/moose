@@ -51,8 +51,7 @@ formula returns [Formula formula]
 // EXPRESSIONS:
 
 term returns [Expression result]
-  : 
-  | '(' e=expression ')' {result = e;}
+  : '(' e=expression ')' {result = e;}
   | r=ref {result = r;}
   | fc=funCall {result = fc;}
   | c=constant { result = c;}
@@ -199,7 +198,7 @@ sheet
   ;
   
 name
-  : (~(',' | '!' | '#' | '(' | ')' | '[' | ']' | '*' | '+' | '/' | '-' | '~' | '>' | '=' | '<' | '|' | '&' | ':')+)
+  : (~('"' | ',' | '!' | '#' | '(' | ')' | '[' | ']' | '*' | '+' | '/' | '-' | '~' | '>' | '=' | '<' | '|' | '&' | ':')+)
   ;
 
 path returns [Path result]
@@ -216,18 +215,37 @@ path returns [Path result]
 
 ident
   :
-    STRING (INT | STRING)*
+    CHARS (INT | CHARS)*
   ;
 
 constant returns [Constant result]
+  : s=scalar
+    { result = new Constant(s); }
+  ;
+
+scalar returns [Scalar result]
   : REAL
     {
-      result = new Constant(new Scalar<Double>(Double.valueOf($REAL.text)));
+      result = new Scalar<Double>(Double.valueOf($REAL.text));
     }
   | INT
     {
-      result = new Constant(new Scalar<Integer>(Integer.valueOf($INT.text))); 
+      result = new Scalar<Integer>(Integer.valueOf($INT.text)); 
     }
+  | s=quotedString
+    {
+      result = new Scalar<String>(s);
+    }
+  ;
+  
+quotedString returns [String str]
+  :
+    { str = "";}
+    QUOTE (s=strWithoutQuotes {str = $s.text;})?  QUOTE  // FIXME _ inside quotes breaks everything // TODO escaped quotes
+  ;
+  
+strWithoutQuotes
+  : ~QUOTE+
   ;
 
 FORM: '=';
@@ -235,5 +253,6 @@ R: 'R';
 C: 'C';
 REAL: INT '.' INT;
 INT: '0'..'9'+;
-STRING: ('a'..'z' | 'A'..'Z')+;
+CHARS: ('a'..'z' | 'A'..'Z')+;
+QUOTE: '"';
 WS: '\t'+ {$channel = HIDDEN;};
