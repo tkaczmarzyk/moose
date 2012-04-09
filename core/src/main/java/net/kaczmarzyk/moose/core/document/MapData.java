@@ -80,4 +80,19 @@ public class MapData extends AbstractDataObject {
 			property.getValue().placedInCell(cellAddr);
 		}
 	}
+	
+	@Override
+	public int hashCode() {
+		return properties.hashCode(); // FIXME what about address from superclass?
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof MapData) {
+			MapData that = (MapData) obj;
+			return this.properties.equals(that.properties);
+		} else {
+			return false;
+		}
+	}
 }

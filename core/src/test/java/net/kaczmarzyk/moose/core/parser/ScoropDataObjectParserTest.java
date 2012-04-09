@@ -9,6 +9,7 @@ import java.util.Arrays;
 import net.kaczmarzyk.moose.core.document.Dimension;
 import net.kaczmarzyk.moose.core.document.Document;
 import net.kaczmarzyk.moose.core.document.Formula;
+import net.kaczmarzyk.moose.core.document.MapData;
 import net.kaczmarzyk.moose.core.document.Path;
 import net.kaczmarzyk.moose.core.document.Scalar;
 import net.kaczmarzyk.moose.core.document.Sheet;
@@ -47,6 +48,33 @@ public class ScoropDataObjectParserTest { // TODO utils for repeated assertions
 		parser.funRegistry = new SpringFunctionRegistry(Arrays.asList(new Add(), new Abs(), new Sum(), new Neg()));
 	}
 	
+	
+	@Test
+	public void parse_shouldRecognizeMapConstantWithNestedMap() {
+		Formula parsed = (Formula) parser.parse(sheet1, "={foo:2,bar:{ke:3},baz:4}");
+		
+		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
+		assertEquals(Constant.class, expression.getClass());
+		MapData expected = new MapData(null);
+		expected.setProperty(Path.of("foo"), new Scalar<>(2));
+		MapData nested = new MapData(null);
+		nested.setProperty(Path.of("ke"), new Scalar<>(3)); // TODO builder for Map data
+		expected.setProperty(Path.of("bar"), nested);
+		expected.setProperty(Path.of("baz"), new Scalar<>(4));
+		assertEquals(expected, ReflectionUtil.get(expression, "value"));
+	}
+	
+	@Test
+	public void parse_shouldRecognizeMapConstant() {
+		Formula parsed = (Formula) parser.parse(sheet1, "={foo:2,bar:3}");
+		
+		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
+		assertEquals(Constant.class, expression.getClass());
+		MapData expected = new MapData(null);
+		expected.setProperty(Path.of("foo"), new Scalar<>(2));
+		expected.setProperty(Path.of("bar"), new Scalar<>(3));
+		assertEquals(expected, ReflectionUtil.get(expression, "value"));
+	}
 	
 	@Test
 	public void parse_shouldRecognizeEmptyString() {

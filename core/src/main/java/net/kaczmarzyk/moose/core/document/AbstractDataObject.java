@@ -6,7 +6,7 @@ public abstract class AbstractDataObject implements DataObject { // TODO remove 
 	protected ObjectAddress addr;
 	
 	
-	public AbstractDataObject(ObjectAddress addr) {
+	public AbstractDataObject(ObjectAddress addr) { // FIXME should not be required in constructor
 		this.addr = addr;
 	}
 	

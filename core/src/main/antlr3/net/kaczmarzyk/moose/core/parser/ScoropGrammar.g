@@ -10,6 +10,8 @@ options {
   import net.kaczmarzyk.moose.core.document.CellAddress;
   import net.kaczmarzyk.moose.core.document.Dimension;
   import net.kaczmarzyk.moose.core.document.ObjectAddress;
+  import net.kaczmarzyk.moose.core.document.DataObject;
+  import net.kaczmarzyk.moose.core.document.MapData;
   import net.kaczmarzyk.moose.core.document.Scalar;
   import net.kaczmarzyk.moose.core.document.Path;
   import net.kaczmarzyk.moose.core.document.Sheet;
@@ -211,16 +213,28 @@ path returns [Path result]
     }
   ;
 
-
-
 ident
   :
     CHARS (INT | CHARS)*
   ;
 
+// constants, values
+
 constant returns [Constant result]
-  : s=scalar
-    { result = new Constant(s); }
+  : o=object
+    { result = new Constant(o); }
+  ;
+
+object returns [DataObject o]
+  : s=scalar {o = s;}
+  | m=map {o = m;}
+  ;
+
+map returns [MapData result]
+  : { result = new MapData(null); }
+    '{' fprop=ident ':' o=object {result.setProperty(Path.of($fprop.text), o);}
+    (',' prop=ident ':' o=object {result.setProperty(Path.of($prop.text), o);} )*
+    '}'
   ;
 
 scalar returns [Scalar result]
@@ -230,7 +244,7 @@ scalar returns [Scalar result]
     }
   | INT
     {
-      result = new Scalar<Integer>(Integer.valueOf($INT.text)); 
+      result = new Scalar<Integer>(Integer.valueOf($INT.text));  // TODO parse as double ?
     }
   | s=quotedString
     {
