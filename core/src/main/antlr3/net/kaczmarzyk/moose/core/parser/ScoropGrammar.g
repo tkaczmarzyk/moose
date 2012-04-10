@@ -44,11 +44,36 @@ options {
 }
 
 
+parse returns [DataObject result]
+  : f=formula EOF { result = f; }
+  | m=map EOF {result = m;}
+  | s=scalar2 EOF {result = s;}
+  ;
+
 formula returns [Formula formula]
   :
     '=' e=expression EOF { formula = new Formula(e);}
   ;
 
+scalar2 returns [Scalar result]
+  :
+    str=string
+    {
+      String s = $str.text;
+      if (s.matches("^-?\\d+$")) {
+        result = new Scalar<>(Integer.valueOf(s));
+      } else if (s.matches("^-?\\d+\\.\\d+$")) {
+        result = new Scalar<>(Double.valueOf(s));
+      } else {
+        result = new Scalar<>(s);
+      }
+    }
+  ;
+
+string
+  : ~('"' | '{' | '=') .*
+  | quotedString
+  ;
 
 // EXPRESSIONS:
 
@@ -157,14 +182,22 @@ objAddr returns [ObjectAddress result]
 
 coord returns [Coordinate result]
   :
-    dim shift=INT
+    dim i=integer
     {
-      result = Coordinate.rel(dim_, Integer.parseInt(shift.getText()));
+      result = Coordinate.rel(dim_, i);
     }
   |
-    dim '[' shift=INT ']'
+    dim '[' i=integer ']'
     {
-      result = Coordinate.abs(dim_, Integer.parseInt(shift.getText()));
+      result = Coordinate.abs(dim_, i);
+    }
+  ;
+
+integer returns [Integer result]
+  : minus='-'? INT
+    {
+      Integer i = Integer.valueOf($INT.text);
+      result = minus != null ? -i : i;
     }
   ;
 

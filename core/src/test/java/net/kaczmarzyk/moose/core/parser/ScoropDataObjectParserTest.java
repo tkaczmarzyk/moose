@@ -49,6 +49,20 @@ public class ScoropDataObjectParserTest { // TODO utils for repeated assertions
 	}
 	
 	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void parse_shouldRecognizeUnqotedStringStartingWithNumber() {
+		Scalar<String> parsed = (Scalar<String>) parser.parse(sheet1, "33tk");
+		assertEquals("33tk", parsed.getValue());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void parse_shouldRecognizeUnqotedString() {
+		Scalar<String> parsed = (Scalar<String>) parser.parse(sheet1, "tk");
+		assertEquals("tk", parsed.getValue());
+	}
+	
 	@Test
 	public void parse_shouldRecognizeMapConstantWithNestedMap() {
 		Formula parsed = (Formula) parser.parse(sheet1, "={foo:2,bar:{ke:3},baz:4}");

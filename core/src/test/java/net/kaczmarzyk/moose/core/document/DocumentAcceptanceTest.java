@@ -43,7 +43,7 @@ public class DocumentAcceptanceTest extends SpringTestBase {
 	@Test
 	public void shouldBeAbleToReferenceAPropertyOfAnExplicitDataObject() {
 		docOp.setDataProcessor(new ToStringDataProcessor());
-		docOp.assign("C[0]R[0]", "x:12,y:10"); // TODO map syntax
+		docOp.assign("C[0]R[0]", "{x:12,y:10}");
 		docOp.assign("C[0]R[1]", "=C[0]R[0]#x");
 		
 		assertEquals("(x=(12), y=(10))", docOp.getProcessedValue("C[0]R[0]"));
@@ -53,7 +53,7 @@ public class DocumentAcceptanceTest extends SpringTestBase {
 	@Test
 	public void shouldSupportExplicitReferenceToObjectFromAnotherSheet() {
 		docOp.setDataProcessor(new ToStringDataProcessor());
-		docOp.assign("Sheet1!C[0]R[0]", "x:2,y:3");
+		docOp.assign("Sheet1!C[0]R[0]", "{x:2,y:3}");
 		docOp.assign("Sheet2!C[0]R[1]", "=Sheet1!C[0]R[0]");
 		
 		assertEquals("(x=(2), y=(3))", docOp.getProcessedValue("Sheet1!C[0]R[0]"));
@@ -75,7 +75,7 @@ public class DocumentAcceptanceTest extends SpringTestBase {
 	
 	@Test
 	public void shouldBeAbleToCopyCellValue() {
-		docOp.assign("C[0]R[0]", "2");
+		docOp.assign("C[0]R[0]", "2.0");
 		docOp.copy("C[0]R[0]", "C[0]R[1]");
 		
 		assertEquals(2.0, docOp.getProcessedValue("C[0]R[1]"));
@@ -83,7 +83,7 @@ public class DocumentAcceptanceTest extends SpringTestBase {
 	
 	@Test
 	public void shouldHandleRelativeAddressDuringCopying() {
-		docOp.assign("C[0]R[0]", "2").assign("C[1]R[0]", "3");
+		docOp.assign("C[0]R[0]", "2").assign("C[1]R[0]", "3.0");
 		docOp.assign("C[0]R[1]", "=C0R-1");
 		docOp.copy("C[0]R[1]", "C[1]R[1]");
 		

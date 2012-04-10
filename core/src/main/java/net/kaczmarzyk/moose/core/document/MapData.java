@@ -95,4 +95,9 @@ public class MapData extends AbstractDataObject {
 			return false;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "MapData" + properties;
+	}
 }

@@ -11,16 +11,15 @@ import net.kaczmarzyk.moose.core.recalc.Recalculator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 
 @Configurable
 public class SimpleDocumentOperator<T> implements DocumentOperator {
 
-	@Autowired @Qualifier("pocDataObjectParser")
+	@Autowired
 	private DataObjectParser objectParser;
 	
-	@Autowired @Qualifier("scoropAddressParser")
+	@Autowired
 	private AddressParser addrParser;
 	
 	@Autowired

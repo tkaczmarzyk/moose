@@ -15,6 +15,7 @@ public final class ObjectUtil {
 	static {
 		registeredImmutables.add(String.class);
 		registeredImmutables.add(Double.class);
+		registeredImmutables.add(Integer.class);
 	}
 	
 	private ObjectUtil() {

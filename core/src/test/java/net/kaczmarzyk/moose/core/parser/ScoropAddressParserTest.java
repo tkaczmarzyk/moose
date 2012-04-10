@@ -22,6 +22,14 @@ public class ScoropAddressParserTest { // TODO sheet names with special chars
 	
 	
 	@Test
+	public void parse_shouldRecognizeNegativeCooridnates() {
+		ObjectAddress parsed = parser.parse(sheet1, "Sheet2!C-1R-2#foo.bar.baz");
+		
+		assertEquals(Coordinate.rel(s2dimension1, -1), parsed.getCellAddr().getCoordinate(s2dimension1));
+		assertEquals(Coordinate.rel(s2dimension2, -2), parsed.getCellAddr().getCoordinate(s2dimension2));
+	}
+	
+	@Test
 	public void parse_shouldRecognizeRelativeColumnAndRowCoordinates() {
 		ObjectAddress parsed = parser.parse(sheet1, "Sheet2!C0R1#foo.bar.baz");
 		

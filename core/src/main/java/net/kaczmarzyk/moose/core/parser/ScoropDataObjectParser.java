@@ -27,7 +27,7 @@ public class ScoropDataObjectParser implements DataObjectParser {
 		parser.functions_ = funRegistry;
 		
 		try {
-			return parser.formula();
+			return parser.parse();
 		} catch (RecognitionException e) {
 			throw new IllegalArgumentException(e);
 		}
