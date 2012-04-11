@@ -23,7 +23,7 @@ public class ObjectAddress {
 	}
 
 	public DataObject getObject() {
-		return cellAddr.getCell().getValue().getProperty(path);
+		return path.getValue(cellAddr.getCell().getValue());
 	}
 
 	public void put(DataObject obj) {

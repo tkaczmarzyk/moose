@@ -11,7 +11,6 @@ public interface DataObject extends Copyable<DataObject> {
 	List<String> getPropertyNames();
 	
 	DataObject getProperty(String propName);
-	DataObject getProperty(Path path);
 
 	void setProperty(Path path, DataObject obj);
 	

@@ -44,15 +44,6 @@ public class MapData implements DataObject {
 	}
 
 	@Override
-	public DataObject getProperty(Path path) {
-		if (path.isInPlace()) {
-			return this;
-		} else {
-			return getProperty(path.getFirstProperty()).getProperty(path.step());
-		}
-	}
-	
-	@Override
 	public DataObject copy() {
 		MapData copy = new MapData();
 		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
@@ -64,7 +55,7 @@ public class MapData implements DataObject {
 	@Override
 	public void setProperty(Path path, DataObject obj) {
 		if (path.isSingleProperty()) {
-			properties.put(path.getFirstProperty(), obj);
+			put(path.getFirstProperty(), obj);
 		}
 		else {
 			getProperty(path.getFirstProperty()).setProperty(path.step(), obj);

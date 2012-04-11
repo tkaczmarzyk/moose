@@ -19,7 +19,7 @@ public class MapDataProcessor implements DataProcessor<Object> {
 	public Object process(DataObject data) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		for (String property : data.getPropertyNames()) {
-			result.put(property, data.getProperty(Path.of(property)).accept(this));
+			result.put(property, data.getProperty(property).accept(this));
 		}
 		return result;
 	}

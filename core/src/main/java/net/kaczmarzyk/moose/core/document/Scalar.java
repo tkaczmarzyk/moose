@@ -36,11 +36,6 @@ public class Scalar<T> implements DataObject {
 	}
 
 	@Override
-	public DataObject getProperty(Path path) {
-		return path.isInPlace() ? this : null;
-	}
-
-	@Override
 	public Scalar<T> copy() {
 		return new Scalar<T>(ObjectUtil.copy(value));
 	}

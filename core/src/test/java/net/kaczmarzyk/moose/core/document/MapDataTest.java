@@ -29,20 +29,20 @@ public class MapDataTest {
 		DataObject value = new Scalar<>(7.0);
 		obj.setProperty(Path.of("x", "z"), value);
 		
-		assertEquals(value, obj.getProperty(Path.of("x", "z")));
-		assertEquals(value, nested.getProperty(Path.of("z")));
+		assertEquals(value, obj.getProperty("x").getProperty("z"));
+		assertEquals(value, nested.getProperty("z"));
 	}
 	
 	@Test
 	public void setProperty_shouldSetFirstLevelProperty() {
 		DataObject value = new Scalar<>(7.0);
 		obj.setProperty(Path.of("z"), value);
-		assertEquals(value, obj.getProperty(Path.of("z")));
+		assertEquals(value, obj.getProperty("z"));
 	}
 	
 	@Test
 	public void getProperty_shouldReturnEmptyMapIfPropertyNotFound() {
-		DataObject prop = obj.getProperty(Path.of("z"));
+		DataObject prop = obj.getProperty("z");
 		
 		assertSame(MapData.class, prop.getClass());
 		assertTrue(prop.getPropertyNames().isEmpty());
@@ -50,11 +50,7 @@ public class MapDataTest {
 	
 	@Test
 	public void getProperty_shouldReturnFirstLevelPropertyValue() {
-		assertEquals(nested, obj.getProperty(Path.of("x")));
+		assertEquals(nested, obj.getProperty("x"));
 	}
 	
-	@Test
-	public void getProperty_shouldReturnNestedProperty() {
-		assertEquals(new Scalar<>(7.0), obj.getProperty(Path.of("x", "y")));
-	}
 }

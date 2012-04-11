@@ -77,7 +77,7 @@ public class CellAddress {
 	}
 
 	public Cell getCell() { // TODO cache
-		return sheet.getCell(this); // FIXME arg?
+		return sheet.getCell(this);
 	}
 	
 	@Override

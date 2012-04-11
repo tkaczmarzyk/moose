@@ -79,7 +79,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		Path path = Path.of("a", "b", "c", "d");
 		a2.getCell().put(new Scalar<>(2.0), path);
 		
-		assertEquals(2.0, a2.getCell().getValue().getProperty(path).accept(new MapDataProcessor()));
+		assertEquals(2.0, path.getValue(a2.getCell().getValue()).accept(new MapDataProcessor()));
 	}
 	
 	// TODO test for puting data into cell with data (overwriting)
@@ -92,7 +92,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		
 		recalculator.recalculate(doc);
 		
-		assertEquals(2.0, a2.getCell().getValue().getProperty(path).accept(new MapDataProcessor()));
+		assertEquals(2.0, path.getValue(a2.getCell().getValue()).accept(new MapDataProcessor()));
 	}
 	
 	@Test
@@ -103,7 +103,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		
 		recalculator.recalculate(doc);
 		
-		assertEquals(7.0, a2.getCell().getValue().getProperty(path).accept(new MapDataProcessor()));
+		assertEquals(7.0, path.getValue(a2.getCell().getValue()).accept(new MapDataProcessor()));
 	}
 	
 	@Test
@@ -114,7 +114,7 @@ public class DocumentIntegrationTest extends SpringTestBase {
 		
 		recalculator.recalculate(doc);
 		
-		assertEquals(7.0, a2.getCell().getValue().getProperty(path.with("b")).accept(new MapDataProcessor()));
+		assertEquals(7.0, path.with("b").getValue(a2.getCell().getValue()).accept(new MapDataProcessor()));
 	}
 	
 	@Test

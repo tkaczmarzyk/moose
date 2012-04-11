@@ -92,4 +92,12 @@ public class Path {
 	public boolean isSingleProperty() {
 		return propertyChain.size() == 1;
 	}
+	
+	public DataObject getValue(DataObject start) {
+		DataObject end = start;
+		for (String property : propertyChain) {
+			end = end.getProperty(property);
+		}
+		return end;
+	}
 }

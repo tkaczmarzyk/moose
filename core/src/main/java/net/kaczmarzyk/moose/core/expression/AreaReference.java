@@ -87,11 +87,6 @@ public class AreaReference implements Expression {// TODO must be improved to su
 		}
 
 		@Override
-		public DataObject getProperty(Path path) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
 		public DataObject copy() {
 			throw new UnsupportedOperationException();
 		}
