@@ -25,12 +25,8 @@ public class Path {
 		this.propertyChain = propertyChain;
 	}
 
-	public List<String> getPropertyChain() {
-		return propertyChain;
-	}
-
 	public Path getObjectPath() {
-		if (propertyChain.size() <= 0) {
+		if (propertyChain.size() == 0) {
 			return IN_PLACE;
 		}
 //		else if (propertyChain.size() == 1) {
@@ -46,10 +42,6 @@ public class Path {
 			return IN_PLACE;
 		}
 		return new Path(propertyChain.get(propertyChain.size() - 1));
-	}
-	
-	public boolean isSingleProperty() {
-		return propertyChain.size() == 1;
 	}
 	
 	public boolean isInPlace() {
@@ -91,5 +83,13 @@ public class Path {
 		} else {
 			return false;
 		}
+	}
+
+	public String getFirstProperty() {
+		return propertyChain.get(0);
+	}
+
+	public boolean isSingleProperty() {
+		return propertyChain.size() == 1;
 	}
 }

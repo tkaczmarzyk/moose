@@ -26,7 +26,12 @@ public class MapData implements DataObject {
 	@Override
 	public DataObject getProperty(String propName) {
 		DataObject result = properties.get(propName);
-		return result != null ? result : new NullObject(address.withExtendedPath(propName));
+		if (result == null) {
+			result = new MapData();
+			result.placedAtAddress(address.withExtendedPath(propName));
+			properties.put(propName, result);
+		}
+		return result;
 	}
 	
 	@Override
@@ -40,11 +45,11 @@ public class MapData implements DataObject {
 
 	@Override
 	public DataObject getProperty(Path path) {
-		DataObject result = this;
-		for (String property : path.getPropertyChain()) {
-			result = result.getProperty(property);
+		if (path.isInPlace()) {
+			return this;
+		} else {
+			return getProperty(path.getFirstProperty()).getProperty(path.step());
 		}
-		return result;
 	}
 	
 	@Override
@@ -59,10 +64,10 @@ public class MapData implements DataObject {
 	@Override
 	public void setProperty(Path path, DataObject obj) {
 		if (path.isSingleProperty()) {
-			properties.put(path.getPropertyChain().get(0), obj);
+			properties.put(path.getFirstProperty(), obj);
 		}
 		else {
-			getProperty(path.getPropertyChain().get(0)).setProperty(path.step(), obj);
+			getProperty(path.getFirstProperty()).setProperty(path.step(), obj);
 		}
 	}
 

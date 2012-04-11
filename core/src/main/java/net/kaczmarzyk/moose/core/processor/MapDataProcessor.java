@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.kaczmarzyk.moose.core.document.DataObject;
+import net.kaczmarzyk.moose.core.document.Path;
 import net.kaczmarzyk.moose.core.document.Scalar;
 
 
@@ -18,7 +19,7 @@ public class MapDataProcessor implements DataProcessor<Object> {
 	public Object process(DataObject data) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		for (String property : data.getPropertyNames()) {
-			result.put(property, data.getProperty(property).accept(this));
+			result.put(property, data.getProperty(Path.of(property)).accept(this));
 		}
 		return result;
 	}

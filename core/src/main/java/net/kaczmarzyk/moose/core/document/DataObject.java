@@ -11,16 +11,14 @@ public interface DataObject extends Copyable<DataObject> {
 	List<String> getPropertyNames();
 	
 	DataObject getProperty(String propName);
+	DataObject getProperty(Path path);
+
+	void setProperty(Path path, DataObject obj);
 	
 	<T> T accept(DataProcessor<T> visitor);
 	
 	void refresh(CellAddress addr);
-
-	DataObject getProperty(Path path);
-
-	DataObject copy();
-
-	void setProperty(Path path, DataObject obj);
-
 	void placedAtAddress(ObjectAddress address);
+	
+	DataObject copy();
 }

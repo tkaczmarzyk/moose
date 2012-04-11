@@ -13,7 +13,8 @@ public class Cell { // FIXME do i really need cells? maybe DataObject is enough
 	
 	public DataObject getValue() {
 		if (value == null) {
-			value = new NullObject(new ObjectAddress(address, Path.IN_PLACE)); //TODO factory method for inplace address
+			value = new MapData();
+			value.placedAtAddress(address.objectAddress());
 		}
 		return value;
 	}

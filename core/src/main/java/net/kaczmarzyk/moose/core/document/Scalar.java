@@ -37,7 +37,7 @@ public class Scalar<T> implements DataObject {
 
 	@Override
 	public DataObject getProperty(Path path) {
-		return path.getPropertyChain().isEmpty() ? this : null;
+		return path.isInPlace() ? this : null;
 	}
 
 	@Override
