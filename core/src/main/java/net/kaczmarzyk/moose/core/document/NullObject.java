@@ -55,15 +55,15 @@ public class NullObject implements DataObject {
 			}
 		}
 		else {
-			MapData map = new MapData(addr);
+			MapData map = new MapData();
 			addr.put(map);
 			map.setProperty(path, obj);
 		}
 	}
 
 	@Override
-	public void placedInCell(CellAddress cellAddr) {
-		this.addr = new ObjectAddress(cellAddr, addr.getPath());
+	public void placedAtAddress(ObjectAddress objAddr) {
+		this.addr = objAddr;
 	}
 
 	

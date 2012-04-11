@@ -58,6 +58,6 @@ public class Formula implements DataObject {
 	}
 
 	@Override
-	public void placedInCell(CellAddress address) {
+	public void placedAtAddress(ObjectAddress address) {
 	}
 }

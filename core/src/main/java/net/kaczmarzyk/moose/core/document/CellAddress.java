@@ -96,5 +96,13 @@ public class CellAddress {
 		}
 		return list;
 	}
+
+	public ObjectAddress objectAddress() {
+		return new ObjectAddress(this, Path.IN_PLACE);
+	}
+
+	public ObjectAddress objectAddress(Path path) {
+		return new ObjectAddress(this, path);
+	}
 	
 }

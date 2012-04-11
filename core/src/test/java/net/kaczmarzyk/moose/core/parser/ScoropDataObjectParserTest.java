@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import net.kaczmarzyk.moose.core.document.Dimension;
 import net.kaczmarzyk.moose.core.document.Document;
 import net.kaczmarzyk.moose.core.document.Formula;
 import net.kaczmarzyk.moose.core.document.MapData;
@@ -34,11 +33,6 @@ public class ScoropDataObjectParserTest { // TODO utils for repeated assertions
 
 	private Document doc = new Document("test doc");
 	private Sheet sheet1 = doc.getSheet("Sheet1");
-	private Dimension<?> s1dimension1 = sheet1.getDimensions().get(0);
-	private Dimension<?> s1dimension2 = sheet1.getDimensions().get(1);
-	private Sheet sheet2 = doc.getSheet("Sheet2");
-	private Dimension<?> s2dimension1 = sheet2.getDimensions().get(0);
-	private Dimension<?> s2dimension2 = sheet2.getDimensions().get(1);
 	
 	private ScoropDataObjectParser parser = new ScoropDataObjectParser();
 	
@@ -69,9 +63,9 @@ public class ScoropDataObjectParserTest { // TODO utils for repeated assertions
 		
 		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
 		assertEquals(Constant.class, expression.getClass());
-		MapData expected = new MapData(null);
+		MapData expected = new MapData();
 		expected.setProperty(Path.of("foo"), new Scalar<>(2));
-		MapData nested = new MapData(null);
+		MapData nested = new MapData();
 		nested.setProperty(Path.of("ke"), new Scalar<>(3)); // TODO builder for Map data
 		expected.setProperty(Path.of("bar"), nested);
 		expected.setProperty(Path.of("baz"), new Scalar<>(4));
@@ -84,7 +78,7 @@ public class ScoropDataObjectParserTest { // TODO utils for repeated assertions
 		
 		Expression expression = (Expression) ReflectionUtil.get(parsed, "expression");
 		assertEquals(Constant.class, expression.getClass());
-		MapData expected = new MapData(null);
+		MapData expected = new MapData();
 		expected.setProperty(Path.of("foo"), new Scalar<>(2));
 		expected.setProperty(Path.of("bar"), new Scalar<>(3));
 		assertEquals(expected, ReflectionUtil.get(expression, "value"));

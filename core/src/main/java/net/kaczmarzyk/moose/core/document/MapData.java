@@ -8,13 +8,13 @@ import java.util.Map;
 import net.kaczmarzyk.moose.core.processor.DataProcessor;
 
 
-public class MapData extends AbstractDataObject {
+public class MapData implements DataObject {
 
+	private ObjectAddress address;
 	private Map<String, DataObject> properties;
 
 	
-	public MapData(ObjectAddress addr) {
-		super(addr);
+	public MapData() {
 		this.properties = new LinkedHashMap<>();
 	}
 	
@@ -26,7 +26,7 @@ public class MapData extends AbstractDataObject {
 	@Override
 	public DataObject getProperty(String propName) {
 		DataObject result = properties.get(propName);
-		return result != null ? result : new NullObject(addr.withExtendedPath(propName));
+		return result != null ? result : new NullObject(address.withExtendedPath(propName));
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class MapData extends AbstractDataObject {
 	
 	@Override
 	public DataObject copy() {
-		MapData copy = new MapData(addr);
+		MapData copy = new MapData();
 		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
 			copy.put(property.getKey(), property.getValue().copy());
 		}
@@ -74,16 +74,16 @@ public class MapData extends AbstractDataObject {
 	}
 
 	@Override
-	public void placedInCell(CellAddress cellAddr) {
-		this.addr = new ObjectAddress(cellAddr, addr.getPath()); // TODO factory method
+	public void placedAtAddress(ObjectAddress objAddr) {
+		this.address = objAddr;
 		for (Map.Entry<String, DataObject> property : properties.entrySet()) {
-			property.getValue().placedInCell(cellAddr);
+			property.getValue().placedAtAddress(new ObjectAddress(address.getCellAddr(), Path.of(property.getKey()))); // TODO factory method
 		}
 	}
 	
 	@Override
 	public int hashCode() {
-		return properties.hashCode(); // FIXME what about address from superclass?
+		return properties.hashCode(); // FIXME what about address?
 	}
 	
 	@Override

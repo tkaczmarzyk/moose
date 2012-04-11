@@ -102,7 +102,7 @@ public class AreaReference implements Expression {// TODO must be improved to su
 		}
 
 		@Override
-		public void placedInCell(CellAddress address) {
+		public void placedAtAddress(ObjectAddress address) {
 			throw new UnsupportedOperationException();
 		}
 		

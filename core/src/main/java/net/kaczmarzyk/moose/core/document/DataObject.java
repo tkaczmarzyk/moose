@@ -22,5 +22,5 @@ public interface DataObject extends Copyable<DataObject> {
 
 	void setProperty(Path path, DataObject obj);
 
-	void placedInCell(CellAddress address);
+	void placedAtAddress(ObjectAddress address);
 }

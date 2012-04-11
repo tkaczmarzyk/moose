@@ -41,7 +41,7 @@ public class SimpleDocumentOperator<T> implements DocumentOperator {
 		ObjectAddress coords = addrParser.parse(currentSheet, coordinatesDef);
 		DataObject value = objectParser.parse(currentSheet, valueDefinition);
 		
-		coords.getCellAddr().getCell().setValue(value);
+		coords.getCellAddr().getCell().put(value);
 		
 		recalculator.recalculate(doc);
 		

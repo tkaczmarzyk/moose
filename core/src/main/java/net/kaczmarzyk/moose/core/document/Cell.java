@@ -22,20 +22,20 @@ public class Cell { // FIXME do i really need cells? maybe DataObject is enough
 		value = null;
 	}
 
-	public void setValue(DataObject value) {
-		this.value = value;
-		value.placedInCell(address);
-	}
-	
 	public CellAddress getAddress() {
 		return address;
 	}
 
 	public void put(DataObject obj, Path path) {
-		getValue().setProperty(path, obj);
+		obj.placedAtAddress(address.objectAddress(path));
+		if (path.isInPlace()) {
+			value = obj;
+		} else {
+			getValue().setProperty(path, obj);
+		}
 	}
 
 	public void put(DataObject obj) {
-		value = obj;
+		put(obj, Path.IN_PLACE);
 	}
 }

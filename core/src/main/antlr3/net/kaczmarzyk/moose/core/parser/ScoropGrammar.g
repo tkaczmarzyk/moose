@@ -264,7 +264,7 @@ object returns [DataObject o]
   ;
 
 map returns [MapData result]
-  : { result = new MapData(null); }
+  : { result = new MapData(); }
     '{' fprop=ident ':' o=object {result.setProperty(Path.of($fprop.text), o);}
     (',' prop=ident ':' o=object {result.setProperty(Path.of($prop.text), o);} )*
     '}'
