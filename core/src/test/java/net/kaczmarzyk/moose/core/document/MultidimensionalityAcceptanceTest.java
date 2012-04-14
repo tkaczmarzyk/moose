@@ -97,7 +97,7 @@ public class MultidimensionalityAcceptanceTest {
 	@Test
 	public void shouldBeAbleToSpecifyTimeCoordExplicitely() {
 		Date date = new Date(0L);
-		CellAddress addr = new CellAddress(sheet, sheet.getDimensions().get(0).coordOf(0),
+		CellAddress addr = new CellAddress(sheet, sheet.getDimensions().get(0).coordOf(0), //FIXME do: getDimensions().coordOf(i, val) ?
 				sheet.getDimensions().get(1).coordOf(0), sheet.getDimensions().get(2).coordOf(date));
 		
 		sheet.put(addr, new Scalar<>("test"));
