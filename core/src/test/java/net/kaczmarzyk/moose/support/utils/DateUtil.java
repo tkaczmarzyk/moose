@@ -7,6 +7,9 @@ import java.util.GregorianCalendar;
 
 public final class DateUtil {
 
+	public static final long MILLIS_IN_DAY = 24L * 60 * 60 * 1000;
+	
+	
 	private DateUtil() {
 	}
 	

@@ -9,6 +9,7 @@ import java.util.List;
 import net.kaczmarzyk.moose.core.Integration;
 import net.kaczmarzyk.moose.core.common.MockClock;
 import net.kaczmarzyk.moose.core.utils.DataObjectUtil;
+import net.kaczmarzyk.moose.support.utils.DateUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -63,6 +64,22 @@ public class MultidimensionalityIntegrationTest {
 		clock.forward(1000);
 		
 		assertEquals(new Scalar<>(7.0), sheet.get(addr));
+	}
+	
+	@Test
+	public void shouldPutToCorrectCellsAsTimePasses() {
+		CellAddress addr = DataObjectUtil.absCellAddr(sheet, 0, 0);
+		sheet.put(addr, new Scalar<>(1));
+		
+		clock.forward(DateUtil.MILLIS_IN_DAY);
+		sheet.put(addr, new Scalar<>(2));
+		
+		clock.forward(DateUtil.MILLIS_IN_DAY);
+		sheet.put(addr, new Scalar<>(3));
+		
+		assertEquals(new Scalar<>(1), sheet.get(DataObjectUtil.absCellAddr(sheet, 0, 0, 0)));
+		assertEquals(new Scalar<>(2), sheet.get(DataObjectUtil.absCellAddr(sheet, 0, 0, 1)));
+		assertEquals(new Scalar<>(3), sheet.get(DataObjectUtil.absCellAddr(sheet, 0, 0, 2)));
 	}
 	
 	@Test
