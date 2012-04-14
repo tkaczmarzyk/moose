@@ -64,4 +64,14 @@ public class MultidimensionalityIntegrationTest {
 		
 		assertEquals(new Scalar<>(7.0), sheet.get(addr));
 	}
+	
+	@Test
+	public void shouldBeAbleToHandleRelativeTimeCoordinate() {
+		sheet.put(DataObjectUtil.absCellAddr(sheet, 0, 0, 0), new Scalar<>("test"));
+		
+		CellAddress addr = DataObjectUtil.relCellAddr(sheet, 0, 0, -1);
+		CellAddress absoulte = addr.absolute(DataObjectUtil.absCellAddr(sheet, 0, 0, 1));
+		
+		assertEquals(new Scalar<>("test"), sheet.get(absoulte));		
+	}
 }

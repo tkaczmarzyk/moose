@@ -30,4 +30,8 @@ public final class DataObjectUtil {
 	public static CellAddress absCellAddr(Sheet sheet, int... shifts) {
 		return new CellAddress(sheet, coords(sheet, true, shifts));
 	}
+
+	public static CellAddress relCellAddr(Sheet sheet, int... shifts) {
+		return new CellAddress(sheet, coords(sheet, false, shifts));
+	}
 }
