@@ -19,10 +19,10 @@ public final class DataObjectUtil {
 		return new ObjectAddress(new CellAddress(sheet, coords(sheet, shifts)), path);
 	}
 
-	private static List<Coordinate<?>> coords(Sheet sheet, int[] shifts) {
-		List<Coordinate<?>> result = new ArrayList<>();
+	private static List<Coordinate> coords(Sheet sheet, int[] shifts) {
+		List<Coordinate> result = new ArrayList<>();
 		for (int i = 0; i<shifts.length; i++) {
-			result.add(new Coordinate<>(sheet.getDimensions().get(i), shifts[i]));
+			result.add(new Coordinate(sheet.getDimensions().get(i), shifts[i]));
 		}
 		return result;
 	}

@@ -26,10 +26,10 @@ public class DimensionsList implements Iterable<Dimension<?>> {
 		dimensions.add(dimension);
 	}
 
-	public CellAddress inferAddress(Coordinate<?>[] partialCoords, Sheet sheet) {
-		List<Coordinate<?>> coords = new ArrayList<Coordinate<?>>();
+	public CellAddress inferAddress(Coordinate[] partialCoords, Sheet sheet) {
+		List<Coordinate> coords = new ArrayList<Coordinate>();
 		for (int i = 0; i < dimensions.size(); i++) {
-			coords.add(i < partialCoords.length ? partialCoords[i] : dimensions.get(i).getDefaultCoordinate(sheet));
+			coords.add(i < partialCoords.length ? partialCoords[i] : dimensions.get(i).extend());
 		}
 		return new CellAddress(sheet, coords);
 	}

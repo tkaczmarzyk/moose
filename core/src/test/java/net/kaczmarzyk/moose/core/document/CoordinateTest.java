@@ -13,8 +13,8 @@ public class CoordinateTest extends MockedTestBase {
 
 	@Mock private Dimension<Object> dimension;
 	
-	private Coordinate<Object> absCoord, absCoord2;
-	private Coordinate<Object> relCoord;
+	private Coordinate absCoord, absCoord2;
+	private Coordinate relCoord;
 	
 	
 	@Before
@@ -31,12 +31,12 @@ public class CoordinateTest extends MockedTestBase {
 	
 	@Test
 	public void absolute_shouldReturnAbsoluteCoordWithSumOfShifts() {
-		Coordinate<Object> abs = relCoord.absolute(absCoord2);
+		Coordinate abs = relCoord.absolute(absCoord2);
 		assertAbsolute(abs);
 		assertEquals(2, ReflectionUtil.get(abs, "shift")); // TODO avoid reflection, but do not expose if not neccessary
 	}
 	
-	private static void assertAbsolute(Coordinate<?> coord) {
+	private static void assertAbsolute(Coordinate coord) {
 		assertTrue("coordinate is not absolute", (boolean) ReflectionUtil.get(coord, "absolute"));
 	}
 }

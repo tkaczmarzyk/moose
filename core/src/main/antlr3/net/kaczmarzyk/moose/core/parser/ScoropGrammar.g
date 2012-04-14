@@ -206,11 +206,11 @@ dim
     (R | C | ',')
   ;
 
-coords returns [List<Coordinate<?>> coords]
+coords returns [List<Coordinate> coords]
   :
     {
       int i = 0;
-      coords = new ArrayList<Coordinate<?>>();
+      coords = new ArrayList<Coordinate>();
     }
     (
       {

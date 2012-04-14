@@ -1,6 +1,5 @@
 package net.kaczmarzyk.moose.core.document;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,23 +14,23 @@ import com.google.common.collect.Lists;
 public class CellAddress {
 
 	private Sheet sheet;
-	private List<Coordinate<?>> coords;
+	private List<Coordinate> coords;
 	
 	
-	public CellAddress(Sheet sheet, List<Coordinate<?>> coords) {
+	public CellAddress(Sheet sheet, List<Coordinate> coords) {
 		this.coords = coords;
 		this.sheet = sheet;
 	}
 	
-	public CellAddress(Sheet sheet, Coordinate<String> columnCoord, Coordinate<Integer> rowCoord) {
-		this(sheet, new ArrayList<Coordinate<?>>(Arrays.asList(columnCoord, rowCoord)));
+	public CellAddress(Sheet sheet, Coordinate... coords) {
+		this(sheet, Arrays.asList(coords));
 	}
 
 	public int size() {
 		return coords.size();
 	}
 	
-	public void add(Coordinate<?> coord) {
+	public void add(Coordinate coord) {
 		coords.add(coord);
 	}
 	
@@ -56,21 +55,19 @@ public class CellAddress {
 	}
 
 	public CellAddress absolute(final CellAddress reference) { // TODO optimization ? (detecting absolute addresses)
-		return new CellAddress(sheet, Lists.transform(coords, new Function<Coordinate<?>, Coordinate<?>>() {
-			@SuppressWarnings({ "unchecked", "rawtypes" })
+		return new CellAddress(sheet, Lists.transform(coords, new Function<Coordinate, Coordinate>() {
 			@Override
-			public Coordinate<?> apply(Coordinate originalCoord) {
-				Coordinate<?> referenceCoord = reference.getCoordinate(originalCoord.getDimension());
+			public Coordinate apply(Coordinate originalCoord) {
+				Coordinate referenceCoord = reference.getCoordinate(originalCoord.getDimension());
 				return originalCoord.absolute(referenceCoord);
 			}
 		}));
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <L> Coordinate<L> getCoordinate(final Dimension<L> dimension) {
-		return (Coordinate<L>) Collections2.filter(coords, new Predicate<Coordinate<?>>() { // TODO introduce map dimension->coord
+	public Coordinate getCoordinate(final Dimension<?> dimension) {
+		return (Coordinate) Collections2.filter(coords, new Predicate<Coordinate>() { // TODO introduce map dimension->coord
 			@Override
-			public boolean apply(Coordinate<?> input) {
+			public boolean apply(Coordinate input) {
 				return input.getDimension().equals(dimension);
 			}
 		}).iterator().next();
@@ -91,7 +88,7 @@ public class CellAddress {
 
 	public DimensionsList getDimensions() { // TODO cache
 		DimensionsList list = new DimensionsList();
-		for (Coordinate<?> coord : coords) {
+		for (Coordinate coord : coords) {
 			list.add(coord.getDimension());
 		}
 		return list;
@@ -103,6 +100,10 @@ public class CellAddress {
 
 	public ObjectAddress objectAddress(Path path) {
 		return new ObjectAddress(this, path);
+	}
+
+	public Coordinate getCoordinate(int i) {
+		return coords.get(i);
 	}
 	
 }

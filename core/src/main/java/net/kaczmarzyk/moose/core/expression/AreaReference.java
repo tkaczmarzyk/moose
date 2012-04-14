@@ -40,15 +40,14 @@ public class AreaReference implements Expression {// TODO must be improved to su
 		return new DataObjectList(calculateObjectList(leftUpAbs.getCellAddr(), rightDownAbs.getCellAddr(), leftUpAbs.getPath()));
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
 	private List<DataObject> calculateObjectList(final CellAddress leftUp, CellAddress rightDown, final Path path) {
-		List<List<Coordinate<?>>> coords = new ArrayList<>();
-		for (Dimension dimension : leftUp.getDimensions()) {
+		List<List<Coordinate>> coords = new ArrayList<>();
+		for (Dimension<?> dimension : leftUp.getDimensions()) {
 			coords.add(leftUp.getCoordinate(dimension).upTo(rightDown.getCoordinate(dimension)));
 		}
-		return Lists.transform(ListUtil.cartesianProduct(coords), new Function<List<Coordinate<?>>, DataObject>() {
+		return Lists.transform(ListUtil.cartesianProduct(coords), new Function<List<Coordinate>, DataObject>() {
 			@Override
-			public DataObject apply(List<Coordinate<?>> coords) {
+			public DataObject apply(List<Coordinate> coords) {
 				return new ObjectAddress(new CellAddress(leftUp.getSheet(), coords), path).getObject();
 			}
 		});

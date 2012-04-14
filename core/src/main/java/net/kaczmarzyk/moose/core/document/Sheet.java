@@ -18,16 +18,17 @@ public class Sheet {
 	
 	public Sheet(Document doc) {
 		this.dimensions = new DimensionsList();
-		this.dimensions.add(new ColumnDimension());
-		this.dimensions.add(new RowDimension());
+		this.dimensions.add(SpatialDimension.cols());
+		this.dimensions.add(SpatialDimension.rows());
 		this.cells = new HashMap<>();
 		this.name = "Sheet" + (doc.getSheets().size() + 1);
 		this.doc = doc;
 	}
 	
-	public <T> void addDimension(Dimension<T> dimension, Coordinate<T> currentCoordinate) {
+	public void addDimension(Dimension<?> dimension) {
 		dimensions.add(dimension);
 		Map<CellAddress, Cell> newCells = new HashMap<>();
+		Coordinate currentCoordinate = dimension.extend();
 		for (Map.Entry<CellAddress, Cell> entry : cells.entrySet()) {
 			CellAddress newKey = entry.getKey();
 			newKey.add(currentCoordinate);
@@ -49,7 +50,7 @@ public class Sheet {
 		return result;
 	}
 	
-	public Cell getCell(Coordinate<?>... partialCoords) {
+	public Cell getCell(Coordinate... partialCoords) {
 		CellAddress coords = dimensions.inferAddress(partialCoords, this);
 		return getCell(coords);
 	}
@@ -87,6 +88,10 @@ public class Sheet {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public CellAddress cellAddress(Coordinate... partialCoords) {
+		return dimensions.inferAddress(partialCoords, this);
 	}
 	
 }

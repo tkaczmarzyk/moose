@@ -17,8 +17,8 @@ public class SheetTest extends MockedTestBase {
 		Sheet sheet = new Sheet(mockDoc);
 		DimensionsList dimensions = sheet.getDimensions();
 		assertEquals(2, dimensions.size());
-		assertEquals(ColumnDimension.class, dimensions.get(0).getClass());
-		assertEquals(RowDimension.class, dimensions.get(1).getClass());
+		assertEquals(SpatialDimension.class, dimensions.get(0).getClass());
+		assertEquals(SpatialDimension.class, dimensions.get(1).getClass());
 	}
 	
 }
