@@ -3,9 +3,11 @@ package net.kaczmarzyk.moose.core.document;
 import static org.junit.Assert.assertEquals;
 import net.kaczmarzyk.moose.core.Integration;
 import net.kaczmarzyk.moose.core.SpringTestBase;
+import net.kaczmarzyk.moose.core.common.MockClock;
 import net.kaczmarzyk.moose.core.operator.SimpleDocumentOperator;
 import net.kaczmarzyk.moose.core.processor.MapDataProcessor;
 import net.kaczmarzyk.moose.core.processor.ToStringDataProcessor;
+import net.kaczmarzyk.moose.support.utils.DateUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,11 +18,13 @@ import org.junit.experimental.categories.Category;
 public class DocumentAcceptanceTest extends SpringTestBase {
 
 	private SimpleDocumentOperator<Object> docOp;
+	private MockClock clock = MockClock.of(DateUtil.date(2012, 04, 14));
 	
 	
 	@Before
 	public void init() {
 		docOp = new SimpleDocumentOperator<>("test document", new MapDataProcessor());
+		docOp.getDocument().getSheets().get(0).addDimension(new TimeDimension(clock));
 	}
 	
 	@Test
