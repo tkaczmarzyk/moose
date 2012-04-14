@@ -18,7 +18,7 @@ import org.junit.experimental.categories.Category;
 
 
 @Category(Integration.class)
-public class MultidimensionalityIntegrationTest {
+public class MultidimensionalityAcceptanceTest {
 
 	private MockClock clock = MockClock.of(date(2012, 04, 12));
 	private Document doc = mock(Document.class);
