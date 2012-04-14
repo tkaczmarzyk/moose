@@ -6,8 +6,6 @@ import java.util.List;
 
 import net.kaczmarzyk.moose.support.utils.ListUtil;
 
-import org.springframework.util.CollectionUtils;
-
 
 public class DimensionsList implements Iterable<Dimension<?>> {
 
@@ -18,7 +16,8 @@ public class DimensionsList implements Iterable<Dimension<?>> {
 		
 	}
 	
-	public Dimension<?> get(int index) {
+	@SuppressWarnings("rawtypes") // FIXME
+	public Dimension get(int index) {
 		return dimensions.get(index);
 	}
 	

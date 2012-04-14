@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface Dimension<T> {
 
+	Coordinate coordOf(T value);
+	
 	Coordinate extend();
 	
 //	void extend(int shift, T value);

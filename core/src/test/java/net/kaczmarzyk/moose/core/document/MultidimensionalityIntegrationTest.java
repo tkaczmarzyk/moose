@@ -4,6 +4,7 @@ import static net.kaczmarzyk.moose.support.utils.DateUtil.date;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
+import java.util.Date;
 import java.util.List;
 
 import net.kaczmarzyk.moose.core.Integration;
@@ -90,5 +91,17 @@ public class MultidimensionalityIntegrationTest {
 		CellAddress absoulte = addr.absolute(DataObjectUtil.absCellAddr(sheet, 0, 0, 1));
 		
 		assertEquals(new Scalar<>("test"), sheet.get(absoulte));		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void shouldBeAbleToSpecifyTimeCoordExplicitely() {
+		Date date = new Date(0L);
+		CellAddress addr = new CellAddress(sheet, sheet.getDimensions().get(0).coordOf(0),
+				sheet.getDimensions().get(1).coordOf(0), sheet.getDimensions().get(2).coordOf(date));
+		
+		sheet.put(addr, new Scalar<>("test"));
+		
+		assertEquals(new Scalar<>("test"), sheet.get(addr));
 	}
 }

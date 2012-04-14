@@ -1,6 +1,7 @@
 package net.kaczmarzyk.moose.core.document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -66,5 +67,14 @@ public class TimeDimension implements Dimension<Date>{
 	@Override
 	public boolean isTransparent() {
 		return true;
+	}
+
+	@Override
+	public Coordinate coordOf(Date value) {
+		if (!values.contains(value)) {
+			values.add(value);
+			Collections.sort(values);
+		}
+		return Coordinate.abs(this, values.indexOf(value));
 	}
 }

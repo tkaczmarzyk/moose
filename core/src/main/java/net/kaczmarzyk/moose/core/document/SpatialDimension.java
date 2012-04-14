@@ -75,4 +75,9 @@ public class SpatialDimension implements Dimension<Integer> {
 	public boolean isTransparent() {
 		return false;
 	}
+
+	@Override
+	public Coordinate coordOf(Integer value) {
+		return Coordinate.abs(this, value);
+	}
 }
