@@ -1,6 +1,7 @@
 package net.kaczmarzyk.moose.core.document;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Function;
@@ -38,6 +39,10 @@ public class CellAddress {
 		return sheet;
 	}
 	
+	public Cell getCell() {
+		return sheet.getCell(this);
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(sheet, coords);
@@ -65,18 +70,15 @@ public class CellAddress {
 	}
 	
 	public Coordinate getCoordinate(final Dimension<?> dimension) {
-		return (Coordinate) Collections2.filter(coords, new Predicate<Coordinate>() { // TODO introduce map dimension->coord
+		Collection<Coordinate> coord = Collections2.filter(coords, new Predicate<Coordinate>() { // TODO introduce map dimension->coord
 			@Override
 			public boolean apply(Coordinate input) {
 				return input.getDimension().equals(dimension);
 			}
-		}).iterator().next();
+		});
+		return coord.isEmpty() ? null : coord.iterator().next();
 	}
 
-	public Cell getCell() { // TODO cache
-		return sheet.getCell(this);
-	}
-	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder(sheet.getName());
@@ -105,5 +107,20 @@ public class CellAddress {
 	public Coordinate getCoordinate(int i) {
 		return coords.get(i);
 	}
+
+	List<Coordinate> getCoordinates() {
+		return coords;
+	}
+
+	private CellAddress copy() {
+		return new CellAddress(sheet, coords);
+	}
 	
+	public CellAddress withCoord(Coordinate coord) {
+		CellAddress copy = copy();
+		int index = copy.coords.indexOf(getCoordinate(coord.getDimension()));
+		copy.coords.set(index, coord);
+		return copy;
+	}
+
 }

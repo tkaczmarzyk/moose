@@ -75,4 +75,15 @@ public class Coordinate {
 	public Object getValue() {
 		return dimension.get(shift);
 	}
+
+	public Coordinate lower() {
+		if (absolute) {
+			if (shift == 0) {
+				return null;
+			}
+			return new Coordinate(dimension, shift -1, true);
+		} else {
+			throw new UnsupportedOperationException("not implemented yet"); // FIXME
+		}
+	}
 }

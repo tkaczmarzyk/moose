@@ -3,6 +3,8 @@ package net.kaczmarzyk.moose.support.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.kaczmarzyk.moose.core.document.Dimension;
+
 
 public final class ListUtil {
 
@@ -27,6 +29,14 @@ public final class ListUtil {
 			}
 		}
 		return resultLists;
+	}
+
+	public static <T> Iterable<T> reversedOrder(List<T> list) { // TODO iterable backed by existing collection instead of copy
+		List<T> result = new ArrayList<>();
+		for (int i = list.size() - 1; i >= 0; i--) {
+			result.add(list.get(i));
+		}
+		return result;
 	}
 
 }

@@ -16,14 +16,18 @@ public final class DataObjectUtil {
 	}
 
 	public static ObjectAddress relObjAddr(Sheet sheet, Path path, int... shifts) {
-		return new ObjectAddress(new CellAddress(sheet, coords(sheet, shifts)), path);
+		return new ObjectAddress(new CellAddress(sheet, coords(sheet, false, shifts)), path);
 	}
 
-	private static List<Coordinate> coords(Sheet sheet, int[] shifts) {
+	private static List<Coordinate> coords(Sheet sheet, boolean absolute, int[] shifts) {
 		List<Coordinate> result = new ArrayList<>();
 		for (int i = 0; i<shifts.length; i++) {
-			result.add(new Coordinate(sheet.getDimensions().get(i), shifts[i]));
+			result.add(new Coordinate(sheet.getDimensions().get(i), shifts[i], absolute));
 		}
 		return result;
+	}
+
+	public static CellAddress absCellAddr(Sheet sheet, int... shifts) {
+		return new CellAddress(sheet, coords(sheet, true, shifts));
 	}
 }

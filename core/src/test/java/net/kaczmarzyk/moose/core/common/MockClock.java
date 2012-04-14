@@ -26,6 +26,11 @@ public class MockClock implements Clock {
 		return this;
 	}
 	
+	public MockClock time(Date time) {
+		this.date = time;
+		return this;
+	}
+	
 	public static MockClock of(Date date) {
 		MockClock clock = new MockClock();
 		clock.date = date;

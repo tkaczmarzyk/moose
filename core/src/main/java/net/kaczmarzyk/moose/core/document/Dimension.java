@@ -12,4 +12,7 @@ public interface Dimension<T> {
 
 	T get(int shift);
 
+	List<T> getValues();
+
+	boolean isTransparent(); // TODO better name
 }

@@ -5,8 +5,10 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import net.kaczmarzyk.moose.core.MockedTestBase;
+import net.kaczmarzyk.moose.core.common.MockClock;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,5 +56,14 @@ public class CellAddressTest extends MockedTestBase {
 		assertSame(cellAddr1.getSheet(), abs.getSheet());
 		assertEquals(coord1Abs, abs.getCoordinate(dimension1));
 		assertEquals(coord2Abs, abs.getCoordinate(dimension2));
+	}
+	
+	@Test
+	public void equals_shouldReturnTrueWhenShitsAndDimensionTypesAreEqual() {
+		Date date = new Date();
+		CellAddress addr1 = new CellAddress(sheet, coord1Abs, coord2Abs, new Coordinate(new TimeDimension(MockClock.of(date)), 0));
+		CellAddress addr2 = new CellAddress(sheet, coord1Abs, coord2Abs, new Coordinate(new TimeDimension(MockClock.of(date)), 0));
+		
+		assertEquals(addr1, addr2);
 	}
 }

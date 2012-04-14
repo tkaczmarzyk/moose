@@ -25,7 +25,7 @@ public class TimeDimension implements Dimension<Date>{
 	@Override
 	public Coordinate extend() {
 		int currTime = values.indexOf(clock.currentTime());
-		if (currTime > 0) {
+		if (currTime >= 0) {
 			return Coordinate.abs(this, currTime);
 		} else {
 			values.add(clock.currentTime());
@@ -43,4 +43,28 @@ public class TimeDimension implements Dimension<Date>{
 		return values.get(shift);
 	}
 
+	@Override
+	public List<Date> getValues() {
+		return values;
+	}
+
+	@Override
+	public int hashCode() {
+		return TimeDimension.class.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj.getClass() == TimeDimension.class;
+	}
+	
+	@Override
+	public String toString() {
+		return "Time";
+	}
+
+	@Override
+	public boolean isTransparent() {
+		return true;
+	}
 }

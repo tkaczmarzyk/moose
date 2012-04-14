@@ -1,5 +1,6 @@
 package net.kaczmarzyk.moose.core.document;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -54,5 +55,24 @@ public class SpatialDimension implements Dimension<Integer> {
 	
 	public static SpatialDimension cols() {
 		return new SpatialDimension(Type.COLUMN);
+	}
+
+	@Override
+	public List<Integer> getValues() { // TODO fake list
+		List<Integer> result = new LinkedList<>();
+		for (int i = 0; i< numValues; i++) {
+			result.add(i);
+		}
+		return result;
+	}
+	
+	@Override
+	public String toString() {
+		return type.toString();
+	}
+
+	@Override
+	public boolean isTransparent() {
+		return false;
 	}
 }

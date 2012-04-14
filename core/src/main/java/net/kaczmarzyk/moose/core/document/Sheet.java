@@ -2,6 +2,7 @@ package net.kaczmarzyk.moose.core.document;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -37,11 +38,7 @@ public class Sheet {
 		cells = newCells;
 	}
 	
-	public Cell getCell(CellAddress coords) {
-		if (coords.size() != dimensions.size()) {
-			throw new IllegalArgumentException("invalid number of coordinates, required: "
-					+ dimensions.size()	+ " was: " + coords.size());
-		}
+	Cell getCell(CellAddress coords) {
 		Cell result = cells.get(coords);
 		if (result == null) {
 			result = new Cell(coords);
@@ -50,11 +47,10 @@ public class Sheet {
 		return result;
 	}
 	
-	public Cell getCell(Coordinate... partialCoords) {
-		CellAddress coords = dimensions.inferAddress(partialCoords, this);
-		return getCell(coords);
+	boolean isEmpty(CellAddress address) {
+		return cells.get(address) == null;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -90,8 +86,14 @@ public class Sheet {
 		return name;
 	}
 
-	public CellAddress cellAddress(Coordinate... partialCoords) {
-		return dimensions.inferAddress(partialCoords, this);
+	void put(CellAddress cellAddress, DataObject obj) {
+		CellAddress fullAddress = dimensions.inferFullAddress(cellAddress, this);
+		getCell(fullAddress).put(obj);
 	}
-	
+
+	public DataObject get(CellAddress address) {
+		CellAddress visibleAddress = dimensions.inferVisibleAddress(address, this);
+		return getCell(visibleAddress).getValue();
+	}
+
 }
