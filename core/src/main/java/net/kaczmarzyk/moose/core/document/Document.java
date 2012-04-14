@@ -8,7 +8,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
 
-public class Document { // TODO add currentSheet
+public class Document {
 
 	private String name;
 	
