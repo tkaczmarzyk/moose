@@ -1,0 +1,19 @@
+<?page title="test zul page" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<window apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('net.kaczmarzyk.moose.web.document.zk.SheetViewModel')">
+	<grid model="@load(model)">
+		<columns>
+			<column label="ble"/>
+			<column label="ble"/>
+		</columns>
+		<rows>
+			<template name="model" var="item">
+				<row>
+					<label value="@load(item.el)" />
+					<label value="@load(item.el)" />
+				</row>
+			</template>
+		</rows>
+	</grid>
+</window>

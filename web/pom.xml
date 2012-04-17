@@ -48,6 +48,11 @@
             <artifactId>zhtml</artifactId>
             <version>6.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.zkoss.zk</groupId>
+            <artifactId>zkbind</artifactId>
+            <version>6.0.0</version>
+        </dependency>
 		<dependency>
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zkspring-webflow</artifactId>
