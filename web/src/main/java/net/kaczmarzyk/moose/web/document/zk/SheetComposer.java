@@ -10,7 +10,7 @@ import org.zkoss.zul.Button;
 
 
 @VariableResolver(DelegatingVariableResolver.class)
-public class SheetController extends SelectorComposer<Component> {
+public class SheetComposer extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = 1L;
 

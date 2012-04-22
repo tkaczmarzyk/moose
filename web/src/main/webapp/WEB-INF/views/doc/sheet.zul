@@ -1,9 +1,9 @@
 <?page title="test zul page" contentType="text/html;charset=UTF-8"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<window apply="net.kaczmarzyk.moose.web.document.zk.SheetController">
+<window apply="net.kaczmarzyk.moose.web.document.zk.SheetComposer">
 	<div apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('net.kaczmarzyk.moose.web.document.zk.SheetViewModel')">
-		<grid model="@load(model)">
+		<grid model="@load(vm.elements)">
 			<columns sizable="true">
 				<column label="ble"/>
 				<column label="ble"/>

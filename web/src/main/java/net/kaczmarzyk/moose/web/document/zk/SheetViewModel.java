@@ -5,27 +5,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.kaczmarzyk.moose.core.document.Document;
-import net.kaczmarzyk.moose.core.document.service.DocumentService;
 
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.Executions;
 
 
 public class SheetViewModel {
 
-	@WireVariable
-	DocumentService documentService;
-	
 	private Document doc;
 	
 	
 	@Init
 	public void setup() {
-		this.doc = documentService.newDocument();
+		this.doc = (Document) Executions.getCurrent().getAttribute("document");
 	}
 	
 	public List<Element> getElements() {
-		return new ArrayList<>(Arrays.asList(new Element("e")));
+		return new ArrayList<>(Arrays.asList(new Element(doc.toString()), new Element("s3")));
 	}
 	
 	public Document getDoc() {
