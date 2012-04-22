@@ -77,4 +77,9 @@ public class TimeDimension implements Dimension<Date>{
 		}
 		return Coordinate.abs(this, values.indexOf(value));
 	}
+
+	@Override
+	public int getSize() {
+		return values.size();
+	}
 }

@@ -2,7 +2,6 @@ package net.kaczmarzyk.moose.core.document;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -36,6 +35,11 @@ public class Sheet {
 			newCells.put(newKey, entry.getValue());
 		}
 		cells = newCells;
+	}
+	
+	public Cell getCell(Coordinate...coords) {
+		CellAddress addr = new CellAddress(this, coords);
+		return cells.get(addr);
 	}
 	
 	Cell getCell(CellAddress coords) {

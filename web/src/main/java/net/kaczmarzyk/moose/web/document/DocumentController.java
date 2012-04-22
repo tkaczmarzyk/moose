@@ -1,6 +1,11 @@
 package net.kaczmarzyk.moose.web.document;
 
+import net.kaczmarzyk.moose.core.document.CellAddress;
+import net.kaczmarzyk.moose.core.document.Coordinate;
 import net.kaczmarzyk.moose.core.document.Document;
+import net.kaczmarzyk.moose.core.document.MapData;
+import net.kaczmarzyk.moose.core.document.Scalar;
+import net.kaczmarzyk.moose.core.document.Sheet;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +17,18 @@ public class DocumentController {
 
 	@RequestMapping("/doc")
 	public String doc(Model model) {
-		model.addAttribute("document", new Document("New_document"));
+		Document doc = new Document("New_document");
+		Sheet sheet = doc.getSheets().get(0);
+		new CellAddress(sheet, Coordinate.abs(sheet.getDimensions().get(0), 0),
+				Coordinate.abs(sheet.getDimensions().get(1), 0)).objectAddress().put(new Scalar<>(7.0));
+		
+		MapData mapData = new MapData();
+		mapData.put("ble", new Scalar<>(7.0));
+		
+		new CellAddress(sheet, Coordinate.abs(sheet.getDimensions().get(0), 10),
+				Coordinate.abs(sheet.getDimensions().get(1), 1)).objectAddress().put(mapData);
+		
+		model.addAttribute("sheet", sheet);
 		return "doc/sheet";
 	}
 }

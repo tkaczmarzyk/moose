@@ -16,5 +16,7 @@ public interface Dimension<T> {
 
 	List<T> getValues();
 
+	int getSize();
+	
 	boolean isTransparent(); // TODO better name
 }

@@ -80,4 +80,9 @@ public class SpatialDimension implements Dimension<Integer> {
 	public Coordinate coordOf(Integer value) {
 		return Coordinate.abs(this, value);
 	}
+
+	@Override
+	public int getSize() {
+		return numValues;
+	}
 }
