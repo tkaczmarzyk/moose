@@ -38,8 +38,7 @@ public class Sheet {
 	}
 	
 	public Cell getCell(Coordinate...coords) {
-		CellAddress addr = new CellAddress(this, coords);
-		return cells.get(addr);
+		return getCell(new CellAddress(this, coords));
 	}
 	
 	Cell getCell(CellAddress coords) {

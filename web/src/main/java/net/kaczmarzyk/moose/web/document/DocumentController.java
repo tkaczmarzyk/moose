@@ -23,10 +23,14 @@ public class DocumentController {
 				Coordinate.abs(sheet.getDimensions().get(1), 0)).objectAddress().put(new Scalar<>(7.0));
 		
 		MapData mapData = new MapData();
-		mapData.put("ble", new Scalar<>(7.0));
+		mapData.put("title", new Scalar<>("rendering cell value and source"));
+		mapData.put("estimate", new Scalar<>(7.0));
 		
 		new CellAddress(sheet, Coordinate.abs(sheet.getDimensions().get(0), 10),
 				Coordinate.abs(sheet.getDimensions().get(1), 1)).objectAddress().put(mapData);
+		
+		new CellAddress(sheet, Coordinate.abs(sheet.getDimensions().get(0), 11),
+				Coordinate.abs(sheet.getDimensions().get(1), 1)).objectAddress().put(mapData.copy());
 		
 		model.addAttribute("sheet", sheet);
 		return "doc/sheet";

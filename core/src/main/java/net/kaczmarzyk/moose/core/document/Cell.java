@@ -39,4 +39,8 @@ public class Cell { // FIXME do i really need cells? maybe DataObject is enough
 	public void put(DataObject obj) {
 		put(obj, Path.IN_PLACE);
 	}
+	
+	public String getSource() {
+		return "tudu";
+	}
 }

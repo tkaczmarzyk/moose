@@ -1,13 +1,7 @@
 package net.kaczmarzyk.moose.web.document.zk;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import net.kaczmarzyk.moose.core.document.Cell;
 import net.kaczmarzyk.moose.core.document.Coordinate;
@@ -16,31 +10,22 @@ import net.kaczmarzyk.moose.core.document.Sheet;
 
 import org.zkoss.web.util.resource.ServletRequestResolver;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.MouseEvent;
-import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Column;
-import org.zkoss.zul.Columns;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.RowRenderer;
-import org.zkoss.zul.Rows;
-import org.zkoss.zul.Messagebox.ClickEvent;
-import org.zkoss.zul.Window;
 
 
 @VariableResolver(ServletRequestResolver.class)
@@ -68,15 +53,24 @@ public class SheetComposer extends SelectorComposer<Component> {
 		grid.setRowRenderer(new RowRenderer<List<Cell>>() {
 			@Override
 			public void render(Row row, List<Cell> data, int index) throws Exception {
+				row.setHeight("30px"); //TODO
 				new Label(index + "").setParent(row);
-				for (Cell cell : data) {
-					Component field;
+				for (final Cell cell : data) {
+					final Div field = new Div();
+					field.setSclass("moose-cell");
+					field.setHeight("50px"); // FIXME
+					field.setAttribute("cell", cell);
 					if (cell != null) {
-						cellRenderer.render(cell).setParent(row);
-					} else {
-						field = new Div();
-						field.setParent(row);
+						cellRenderer.renderValue(cell).setParent(field);
 					}
+					field.addEventListener(Events.ON_DOUBLE_CLICK, new EventListener<MouseEvent>() {
+						@Override
+						public void onEvent(MouseEvent event) throws Exception {
+							field.getChildren().clear();
+							field.appendChild(cellRenderer.renderSource(cell));
+						}
+					});
+					field.setParent(row);
 				}
 			}
 		});
