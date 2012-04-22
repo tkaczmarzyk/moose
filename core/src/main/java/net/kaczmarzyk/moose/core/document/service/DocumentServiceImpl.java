@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import net.kaczmarzyk.moose.core.document.Document;
 
 
-@Service
+@Service("documentService")
 public class DocumentServiceImpl implements DocumentService {
 
 	@Override
