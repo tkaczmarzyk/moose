@@ -7,17 +7,20 @@ import java.util.List;
 import net.kaczmarzyk.moose.core.document.Document;
 
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.zk.ui.Executions;
+import org.zkoss.web.util.resource.ServletRequestResolver;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 
+@VariableResolver(ServletRequestResolver.class)
 public class SheetViewModel {
 
+	@WireVariable("document")
 	private Document doc;
 	
 	
 	@Init
 	public void setup() {
-		this.doc = (Document) Executions.getCurrent().getAttribute("document");
 	}
 	
 	public List<Element> getElements() {
