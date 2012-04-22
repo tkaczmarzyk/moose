@@ -1,28 +1,30 @@
 <?page title="test zul page" contentType="text/html;charset=UTF-8"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<window apply="org.zkoss.bind.BindComposer"
+<window apply="net.kaczmarzyk.moose.web.document.zk.SheetViewModel">
+	<div apply="org.zkoss.bind.BindComposer"
 	viewModel="@id('vm') @init('net.kaczmarzyk.moose.web.document.zk.SheetViewModel')">
-	<grid model="@load(model)">
-		<columns sizable="true">
-			<column label="ble"/>
-			<column label="ble"/>
-			<column label="ble"/>
-		</columns>
-		<rows>
-			<template name="model" var="item">
-				<row>
-					<label value="@load(item.el)" />
-					<label value="@load(item.el)" />
-					<div onClick="alert('d')" onClientInfo="alert('b')">df</div>
-				</row>
-			</template>
-		</rows>
-	</grid>
-	<button id="btn" label="test" onTest2='self.setLabel("ooo")' onClick=''/>
-	<!-- 
-	
-	zAu.send(new zk.Event(zk.Widget.$('$btn'), 'onTest2', null), 10);
-	
-	 -->
+		<grid model="@load(model)">
+			<columns sizable="true">
+				<column label="ble"/>
+				<column label="ble"/>
+				<column label="ble"/>
+			</columns>
+			<rows>
+				<template name="model" var="item">
+					<row>
+						<label value="@load(item.el)" />
+						<label value="@load(item.el)" />
+						<div onClick="alert('d')" onClientInfo="alert('b')">df</div>
+					</row>
+				</template>
+			</rows>
+		</grid>
+		<button id="btn" label="test" onTest2='self.setLabel("ooo")' onClick=''/>
+		<!-- 
+		
+		zAu.send(new zk.Event(zk.Widget.$('$btn'), 'onTest2', null), 10);
+		
+		 -->
+	</div>
 	<script type="text/javascript" src="../../../js/jquery-ui-1.8.19.custom.min.js" />
 </window>
